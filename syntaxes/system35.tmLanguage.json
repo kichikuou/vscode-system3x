@@ -1,0 +1,263 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "System3.x",
+	"patterns": [
+		{ "include": "#assign" },
+		{ "include": "#branch-begin" },
+		{ "include": "#branch-else" },
+		{ "include": "#branch-end" },
+		{ "include": "#loop-begin" },
+		{ "include": "#loop-end" },
+		{ "include": "#defun" },
+		{ "include": "#deflabel" },
+		{ "include": "#label-jump-or-call" },
+		{ "include": "#funcall" },
+		{ "include": "#get-return-value" },
+		{ "include": "#page-jump-or-call" },
+		{ "include": "#hll-call" },
+		{ "include": "#single-char-command" },
+		{ "include": "#command" },
+		{ "include": "#line-comment" },
+		{ "include": "#block-comment" },
+		{ "include": "#menu-item-simple" },
+		{ "include": "#menu-item-complex" },
+		{ "include": "#menu" },
+		{ "include": "#message" },
+		{ "include": "#string-data" },
+		{ "include": "#raw-data" }
+	],
+	"repository": {
+		"assign": {
+			"name": "keyword.operator.assignment.system35",
+			"begin": "!",
+			"end": "!",
+			"patterns": [
+				{
+					"name": "keyword.operator.assignment.system35",
+					"match": "[-+*/%&|^]?:"
+				},
+				{
+					"include": "#expr"
+				}
+			]
+		},
+		"block-comment": {
+			"name": "comment.block.system35",
+			"begin": "/\\*",
+			"end": "\\*/"
+		},
+		"branch-begin": {
+			"name": "keyword.control.conditional.system35",
+			"begin": "\\{",
+			"end": ":",
+			"patterns": [{ "include": "#expr" }]
+		},
+		"branch-else": {
+			"name": "keyword.control.conditional.system35",
+			"match": "else\\s*(\\sif|\\{)"
+		},
+		"branch-end": {
+			"name": "keyword.control.conditional.system35",
+			"match": "}"
+		},
+		"command": {
+			"name": "support.function.system35",
+			"begin": "[A-Z][0-9A-Z]*|[a-z][0-9a-zA-Z]+",
+			"end": ":",
+			"patterns": [
+				{
+					"name": "punctuation.separator.system35",
+					"match": ","
+				},
+				{
+					"include": "#expr"
+				}
+			]
+		},
+		"deflabel": {
+			"name": "punctuation.definition.label.system35",
+			"begin": "\\*",
+			"end": ":",
+			"patterns": [{ "include": "#label" }]
+		},
+		"defun": {
+			"begin": "(\\*\\*)(\\w+)",
+			"end": ":",
+			"beginCaptures": {
+				"1": { "name": "punctuation.definition.function.system35" },
+				"2": { "name": "entity.name.function.system35" }
+			},
+			"patterns": [
+				{
+					"name": "punctuation.separator.system35",
+					"match": ","
+				},
+				{
+					"name": "variable.parameter.system35",
+					"match": "\\w+"
+				}
+			]
+		},
+		"expr": {
+			"patterns": [
+				{
+					"name": "keyword.operator.arithmetic.system35",
+					"match": "[-+*/%&|^<>=\\\\()\\[\\]]"
+				},
+				{
+					"include": "#number"
+				},
+				{
+					"include": "#variable"
+				},
+				{
+					"include": "#string-data"
+				},
+				{
+					"name": "string.other.filename.system35",
+					"match": "#[\\w.]+"
+				}
+			]
+		},
+		"funcall": {
+			"name": "meta.function-call.system35",
+			"begin": "(~)(\\w+)",
+			"end": ":",
+			"beginCaptures": {
+				"2": { "name": "entity.name.function.system35" }
+			},
+			"patterns": [
+				{
+					"name": "punctuation.separator.system35",
+					"match": ","
+				},
+				{
+					"include": "#expr"
+				}
+			]
+		},
+		"get-return-value": {
+			"begin": "~~",
+			"end": ":",
+			"patterns": [{
+				"include": "#variable"
+			}]
+		},
+		"hll-call": {
+			"name": "meta.function-call.system35",
+			"begin": "([a-zA-Z]\\w*)\\.([a-zA-Z]\\w*)",
+			"end": ":",
+			"beginCaptures": {
+				"1": { "name": "support.function.system35" },
+				"2": { "name": "support.function.system35" }
+			},
+			"patterns": [
+				{
+					"name": "punctuation.separator.system35",
+					"match": ","
+				},
+				{
+					"include": "#expr"
+				}
+			]
+		},
+		"label": {
+			"name": "entity.name.label.system35",
+			"match": "[^ $,;:]"
+		},
+		"label-jump-or-call": {
+			"name": "keyword.control.jump.system35",
+			"begin": "@|\\\\0?",
+			"end": ":",
+			"patterns": [{ "include": "#label" }]
+		},
+		"line-comment": {
+			"name": "comment.line.system35",
+			"match": "(;|//).*$"
+		},
+		"loop-begin": {
+			"name": "keyword.control.system35",
+			"begin": "<@?",
+			"end": ":",
+			"patterns": [{ "include": "#expr" }]
+		},
+		"loop-end": {
+			"name": "keyword.control.system35",
+			"match": ">"
+		},
+		"menu-item-simple": {
+			"name": "keyword.operator.system35",
+			"match": "\\$(.*)\\$([^ -~].*)\\$",
+			"captures": {
+				"1": { "name": "entity.name.label.system35" },
+				"2": { "name": "string.quoted.other.system35" }
+			}
+		},
+		"menu-item-complex": {
+			"name": "keyword.operator.system35",
+			"begin": "\\$(.*)\\$",
+			"end": "$",
+			"beginCaptures": {
+				"1": { "name": "entity.name.label.system35" }
+			}
+		},
+		"menu": {
+			"name": "keyword.control.system35",
+			"match": "]"
+		},
+		"message": {
+			"name": "string.quoted.single.system35",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.system35",
+					"match": "\\\\."
+				}
+			]
+		},
+		"number": {
+			"name": "constant.numeric.integer.system35",
+			"match": "\\d+|0[xX][0-9a-fA-F]+|0[bB][01]+"
+		},
+		"page-jump-or-call": {
+			"name": "keyword.control.jump.system35",
+			"begin": "[%&]",
+			"end": ":",
+			"patterns": [{ "include": "#expr" }]
+		},
+		"raw-data": {
+			"begin": "\\[",
+			"end": "]",
+			"patterns": [
+				{
+					"name": "punctuation.separator.system35",
+					"match": ","
+				},
+				{
+					"include": "#number"
+				}
+			]
+		},
+		"single-char-command": {
+			"name": "support.function.system35",
+			"match": "[AR]"
+		},
+		"string-data": {
+			"name": "string.quoted.double.system35",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.system35",
+					"match": "\\\\."
+				}
+			]
+		},
+		"variable": {
+			"name": "variable.other.system35",
+			"match": "\\w+"
+		}
+	},
+	"scopeName": "source.system35"
+}

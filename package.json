@@ -1,0 +1,197 @@
+{
+  "name": "system3x",
+  "publisher": "kichikuou",
+  "displayName": "System 3.x",
+  "description": "Language support for AliceSoft's System 3.x scripts",
+  "homepage": "https://github.com/kichikuou/vscode-system3x",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kichikuou/vscode-system3x.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kichikuou/vscode-system3x/issues",
+    "email": "KichikuouChrome@gmail.com"
+  },
+  "version": "0.0.0",
+  "preview": true,
+  "engines": {
+    "vscode": "^1.58.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Debuggers"
+  ],
+  "activationEvents": [
+    "onCommand:workbench.action.tasks.runTask",
+    "onDebugResolve:xsystem35",
+    "onDebugDynamicConfigurations:system35",
+    "onCommand:system3x.decompile",
+    "workspaceContains:*S?.ALD"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "system35",
+        "aliases": [
+          "System3.x",
+          "system35"
+        ],
+        "extensions": [
+          ".adv",
+          ".ADV"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "system35",
+        "scopeName": "source.system35",
+        "path": "./syntaxes/system35.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "System3.x",
+      "properties": {
+        "system3x.xsys35cPath": {
+          "type": "string",
+          "default": "xsys35c",
+          "description": "Specifies the path to xsys35c executable."
+        },
+        "system3x.xsys35dcPath": {
+          "type": "string",
+          "default": "xsys35dc",
+          "description": "Specifies the path to xsys35dc executable."
+        },
+        "system3x.xsystem35Path": {
+          "type": "string",
+          "default": "xsystem35",
+          "description": "Specifies the path to xsystem35 executable."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "system3x.decompile",
+        "title": "Decompile",
+        "category": "System3x"
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "xsys35c",
+        "required": [
+          "config"
+        ],
+        "properties": {
+          "config": {
+            "type": "string",
+            "description": "The path to the xsys35c.cfg file. If omitted the xsys35c.cfg in the root of the workspace folder is used."
+          }
+        }
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "xsys35c",
+        "owner": "system35",
+        "fileLocation": [
+          "autoDetect",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(.*) line (\\d+) column (\\d+): (.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "system35"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "xsystem35",
+        "languages": [
+          "system35"
+        ],
+        "label": "XSystem35",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "runDir",
+              "srcDir"
+            ],
+            "properties": {
+              "runDir": {
+                "type": "string",
+                "description": "Directory that contains game files.",
+                "default": "${workspaceFolder}"
+              },
+              "srcDir": {
+                "type": "string",
+                "description": "Directory that contains source files.",
+                "default": "${workspaceFolder}/src"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "Automatically stop after launch.",
+                "default": true
+              },
+              "trace": {
+                "type": "boolean",
+                "description": "Enable logging of the Debug Adapter Protocol.",
+                "default": false
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "xsystem35",
+            "request": "launch",
+            "name": "Debug",
+            "executable": "xsystem35",
+            "runDir": "${workspaceFolder}",
+            "srcDir": "${workspaceFolder}/src",
+            "stopOnEntry": true,
+            "preLaunchTask": "xsys35c: build"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "XSystem35: Debug",
+            "description": "A new configuration for debugging a System3.x project using xsystem35.",
+            "body": {
+              "type": "xsystem35",
+              "request": "launch",
+              "name": "Debug",
+              "executable": "xsystem35",
+              "runDir": "^\"\\${workspaceFolder}\"",
+              "srcDir": "^\"\\${workspaceFolder}/src\"",
+              "stopOnEntry": true,
+              "preLaunchTask": "xsys35c: build"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "14.x",
+    "@types/vscode": "^1.58.0",
+    "typescript": "^4.3.2",
+    "vsce": "^1.100.1"
+  }
+}
