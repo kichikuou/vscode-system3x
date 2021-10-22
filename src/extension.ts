@@ -64,14 +64,13 @@ async function checkProgramVersion(name: string, arg: string, configSection: str
 
 class Xsystem35ConfigurationProvider implements vscode.DebugConfigurationProvider {
 	resolveDebugConfiguration(folder: vscode.WorkspaceFolder | undefined, config: vscode.DebugConfiguration, token?: vscode.CancellationToken): vscode.ProviderResult<vscode.DebugConfiguration> {
-		const xsystem35Path = vscode.workspace.getConfiguration('system3x').xsystem35Path;
-		config.type = 'xsystem35';
-		config.name = 'Debug';
-		config.request = 'launch';
-		config.executable = xsystem35Path;
-		config.runDir = '${workspaceFolder}';
-		config.srcDir = '${workspaceFolder}/src';
-		config.preLaunchTask = 'xsys35c: build';
+		// If config is empty (no launch.json), copy initialConfigurations from our package.json.
+		if (Object.keys(config).length === 0) {
+			const packageJSON = vscode.extensions.getExtension('kichikuou.system3x')?.packageJSON;
+			if (packageJSON) {
+				Object.assign(config, packageJSON.contributes.debuggers[0].initialConfigurations[0]);
+			}
+		}
 		return config;
 	}
 }
