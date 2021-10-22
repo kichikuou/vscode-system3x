@@ -37,6 +37,7 @@ export async function decompileWorkspace() {
 	let cfgStr = Buffer.from(cfgData).toString('utf-8');
 	cfgStr = cfgStr.replace('ald_basename = ', 'ald_basename = ../');
 	cfgStr = cfgStr.replace('output_ain = ', 'output_ain = ../');
+	cfgStr += '\ndebug = true\n';
 	await vscode.workspace.fs.writeFile(cfgUri, Buffer.from(cfgStr, 'utf8'));
 
 	// Open an ADV file so that the user can start debugging just by pressing F5.
