@@ -1,7 +1,6 @@
 # System 3.x extension for Visual Studio Code
 
-This is a work-in-progress VS Code extension that adds support for the
-AliceSoft's System 3.x language.
+This extension adds support for the AliceSoft's System 3.x language.
 
 ## Features
 
@@ -11,16 +10,29 @@ AliceSoft's System 3.x language.
 
 ## Prerequisites
 
-This extension requires unreleased versions of [xsys35c] and [xsystem35-sdl2].
-You need to build and install them from source code.
+To use the full functionality of this extension, you will need the following
+software:
+
+- [xsys35c] (>= 1.7.0)
+- [xsystem35-sdl2] (>= 2.0.0)
+
+### Windows
+
+- Download latest Windows release of xsys35c from
+  [here](https://github.com/kichikuou/xsys35c/releases), and unpack it.
+- Download latest Windows installer of xsystem35-sdl2 from
+  [here](https://github.com/kichikuou/xsystem35-sdl2/releases), and install it.
+
+### Mac / Linux
+
+See README of [xsys35c] and [xsystem35-sdl2] for build and install instructions.
 
 ## Getting Started
 
 Once you've satisfied the prerequisites, perform the following steps to get
 started:
 
-1. Install [this extension](https://marketplace.visualstudio.com/items?itemName=kichikuou.system3x)
-   and reload VS Code.
+1. Install [this extension](https://marketplace.visualstudio.com/items?itemName=kichikuou.system3x).
 2. Open a folder that contains System3.x game files (`*.ALD`).
 3. If prompted, specify `xsys35c` / `xsys35dc` / `xsystem35` locations. See
    [below](#extension-settings) for details.
