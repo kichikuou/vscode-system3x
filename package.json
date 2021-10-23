@@ -13,7 +13,7 @@
     "url": "https://github.com/kichikuou/vscode-system3x/issues",
     "email": "KichikuouChrome@gmail.com"
   },
-  "version": "0.0.0",
+  "version": "0.0.1",
   "preview": true,
   "engines": {
     "vscode": "^1.58.0"
