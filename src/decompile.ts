@@ -14,14 +14,17 @@ export async function decompileWorkspace() {
 		return;
 	}
 	const ainFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '[sS][yY][sS][tT][eE][mM]39.[aA][iI][nN]'));
-	const args = ['--outdir=src'];
+
+	const config = vscode.workspace.getConfiguration('system3x');
+	const args: string[] = config.xsys35dcOptions;
+	args.push('--outdir=src');
 	for (const ald of aldFiles) {
 		args.push(ald.fsPath);
 	}
 	for (const ain of ainFiles) {
 		args.push(ain.fsPath);
 	}
-	const xsys35dcPath = vscode.workspace.getConfiguration('system3x').xsys35dcPath;
+	const xsys35dcPath = config.xsys35dcPath;
 	const task = new vscode.Task(
 		{ type: 'decompile' }, vscode.TaskScope.Workspace, 'decompile', 'xsys35dc',
 		new vscode.ShellExecution(xsys35dcPath, args));

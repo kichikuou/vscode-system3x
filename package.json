@@ -60,6 +60,14 @@
           "default": "xsys35c",
           "description": "Specifies the path to xsys35c executable."
         },
+        "system3x.xsys35dcOptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional command line options for the decompiler."
+        },
         "system3x.xsys35dcPath": {
           "type": "string",
           "default": "xsys35dc",
