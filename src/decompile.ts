@@ -8,12 +8,12 @@ export async function decompileWorkspace() {
 		vscode.window.showErrorMessage('No workspace folder.');
 		return;
 	}
-	const aldFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '*S?.ALD'));
+	const aldFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '*[sS]?.[aA][lL][dD]'));
 	if (aldFiles.length === 0) {
 		vscode.window.showErrorMessage('No *SA.ALD files in the workspace root folder.');
 		return;
 	}
-	const ainFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, 'System39.ain'));
+	const ainFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '[sS][yY][sS][tT][eE][mM]39.[aA][iI][nN]'));
 	const args = ['--outdir=src'];
 	for (const ald of aldFiles) {
 		args.push(ald.fsPath);
