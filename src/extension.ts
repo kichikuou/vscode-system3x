@@ -33,21 +33,8 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.debug.registerDebugAdapterDescriptorFactory('xsystem35', new Xsystem35DebugAdapterFactory()),
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
 		vscode.workspace.onDidChangeConfiguration(handleConfigurationChange),
+		vscode.languages.registerEvaluatableExpressionProvider('system35', new System3xEvaluatableExpressionProvider()),
 	);
-
-	// Override VS Code's default implementation of the debug hover.
-	vscode.languages.registerEvaluatableExpressionProvider('system35', {
-		provideEvaluatableExpression(
-			document: vscode.TextDocument,
-			position: vscode.Position
-		): vscode.ProviderResult<vscode.EvaluatableExpression> {
-			const wordRange = document.getWordRangeAtPosition(position);
-			if (wordRange) {
-				return new vscode.EvaluatableExpression(wordRange);
-			}
-			return undefined; // nothing evaluatable found under mouse
-		}
-	});
 
 	for (const dep of dependencies) {
 		checkDependency(dep);
@@ -97,6 +84,8 @@ function checkProgramVersion(path: string, dep: Dependency): Promise<string | nu
 	});
 }
 
+export function deactivate() { }
+
 async function checkDependency(dep: Dependency) {
 	const config = vscode.workspace.getConfiguration('system3x');
 	const value = config.get(dep.config) as string;
@@ -116,7 +105,11 @@ async function checkDependency(dep: Dependency) {
 }
 
 class Xsystem35ConfigurationProvider implements vscode.DebugConfigurationProvider {
-	resolveDebugConfiguration(folder: vscode.WorkspaceFolder | undefined, config: vscode.DebugConfiguration, token?: vscode.CancellationToken): vscode.ProviderResult<vscode.DebugConfiguration> {
+	resolveDebugConfiguration(
+		folder: vscode.WorkspaceFolder | undefined,
+		config: vscode.DebugConfiguration,
+		token?: vscode.CancellationToken
+	): vscode.ProviderResult<vscode.DebugConfiguration> {
 		// If config is empty (no launch.json), copy initialConfigurations from our package.json.
 		if (Object.keys(config).length === 0) {
 			const packageJSON = vscode.extensions.getExtension('kichikuou.system3x')?.packageJSON;
@@ -128,4 +121,14 @@ class Xsystem35ConfigurationProvider implements vscode.DebugConfigurationProvide
 	}
 }
 
-export function deactivate() { }
+class System3xEvaluatableExpressionProvider implements vscode.EvaluatableExpressionProvider {
+	provideEvaluatableExpression(
+		document: vscode.TextDocument,
+		position: vscode.Position
+	): vscode.ProviderResult<vscode.EvaluatableExpression> {
+		const wordRange = document.getWordRangeAtPosition(position);
+		if (!wordRange)
+			return undefined;
+		return new vscode.EvaluatableExpression(wordRange);
+	}
+}
