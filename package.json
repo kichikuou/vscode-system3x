@@ -147,6 +147,11 @@
                 "description": "Directory that contains source files.",
                 "default": "${workspaceFolder}/src"
               },
+              "logLevel": {
+                "type": "integer",
+                "description": "Console logging level. (0: Error, 1: Warning, 2: Info)",
+                "default": 1
+              },
               "stopOnEntry": {
                 "type": "boolean",
                 "description": "Automatically stop after launch.",
@@ -168,6 +173,7 @@
             "executable": "${config:system3x.xsystem35Path}",
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
+            "logLevel": 1,
             "stopOnEntry": true,
             "preLaunchTask": "xsys35c: build"
           }
@@ -183,6 +189,7 @@
               "executable": "^\"\\${config:system3x.xsystem35Path}\"",
               "runDir": "^\"\\${workspaceFolder}\"",
               "srcDir": "^\"\\${workspaceFolder}/src\"",
+              "logLevel": 1,
               "stopOnEntry": true,
               "preLaunchTask": "xsys35c: build"
             }
