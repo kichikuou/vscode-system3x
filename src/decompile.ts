@@ -8,6 +8,13 @@ export async function decompileWorkspace() {
 		vscode.window.showErrorMessage('No workspace folder.');
 		return;
 	}
+	if ((await vscode.workspace.findFiles(new vscode.RelativePattern(folder, 'src/*'), null, 1)).length > 0) {
+		const selected = await vscode.window.showWarningMessage(
+			'"src" folder already exists. Decompile anyway?', {modal: true}, 'Yes');
+		if (selected !== 'Yes') {
+			return;
+		}
+	}
 	const aldFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '*[sS]?.[aA][lL][dD]'));
 	if (aldFiles.length === 0) {
 		vscode.window.showErrorMessage('No *SA.ALD files in the workspace root folder.');
