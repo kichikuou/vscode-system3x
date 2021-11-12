@@ -2,6 +2,8 @@
 
 This extension adds support for the AliceSoft's System 3.x language.
 
+![Screenshot](images/debugger.png)
+
 ## Features
 
 - Syntax highlighting for `.ADV` source files
