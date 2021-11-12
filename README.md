@@ -42,9 +42,7 @@ started:
    Select `System3x: Decompile` from the completion list. Decompiled source
    files will be generated in the `src` folder, and this extension opens the
    first `ADV` file automatically.
-5. Press `F5`. The debugger starts, ant pauses at the first instruction. See
-   [VS Code's debugging document](https://code.visualstudio.com/docs/editor/debugging)
-   for how to use the debugger.
+5. Press `F5` to start the debugger.
 
 ## Extension Settings
 
@@ -59,9 +57,68 @@ You can also specify paths to those commands with the following settings:
 - `system3x.xsys35dcPath`
 - `system3x.xsystem35Path`
 
-## Feature details
+## Feature Details
 
-TODO: write
+### Decompiling
+
+The `System3x: Decompile` command decompiles System 3.x game files (`*.ALD` and
+`System39.ain`) in the workspace folder. It creates `src` subfolder and
+generates decompiled source files into it.
+
+### Compiling
+
+By default, the `Start Debugging` command (`F5`) automatically rebuilds the
+game from source files in the `src` folder.
+
+If you want to build the game without running it, select `Configure Default
+Build Task` from the `Terminal` menu, and select `xsys35c: build`. This will
+generate a `tasks.json` file. Now you can use the `Run Build Task` command
+(`Ctrl+Shift+B`) to build the game.
+
+### Running
+
+If there is no `launch.json` file, the `Start Debugging` command (`F5`) will
+start xsystem35 (the game engine) with default settings. This works only when
+an `.ADV` file is open in the current tab.
+
+To make `F5` always work, or to customize the launch settings, select `Add
+Configuration` from the `Run` menu. This will generate a `launch.json` file
+like this:
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "xsystem35",
+            "request": "launch",
+            "name": "Debug",
+            "executable": "${config:system3x.xsystem35Path}",
+            "runDir": "${workspaceFolder}",
+            "srcDir": "${workspaceFolder}/src",
+            "logLevel": 1,
+            "stopOnEntry": true,
+            "preLaunchTask": "xsys35c: build"
+        }
+    ]
+}
+```
+Mouse hover will show descriptions of the attributes.
+
+For example, if you want to launch the game without building it, comment out
+the `"preLaunchTask": "xsys35c: build"` field.
+
+### Debugging
+
+See the [Debugging](https://code.visualstudio.com/docs/editor/debugging)
+document of VS Code for how to use the debugger.
+
+The System3.x debugger supports following operations:
+- [Breakpoints](https://code.visualstudio.com/docs/editor/debugging#_breakpoints)
+  (including [Conditional breakpoints](https://code.visualstudio.com/docs/editor/debugging#_advanced-breakpoint-topics))
+- [Step executions](https://code.visualstudio.com/docs/editor/debugging#_debug-actions)
+- [Data inspection](https://code.visualstudio.com/docs/editor/debugging#_data-inspection)
+- [Debug console REPL](https://code.visualstudio.com/docs/editor/debugging#_debug-console-repl)
 
 
 [xsys35c]: https://github.com/kichikuou/xsys35c
