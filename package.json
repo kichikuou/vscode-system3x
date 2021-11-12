@@ -13,6 +13,7 @@
     "url": "https://github.com/kichikuou/vscode-system3x/issues",
     "email": "KichikuouChrome@gmail.com"
   },
+  "icon": "images/icon.png",
   "version": "0.0.1",
   "preview": true,
   "engines": {
