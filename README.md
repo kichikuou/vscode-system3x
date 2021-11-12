@@ -38,11 +38,11 @@ started:
 2. Open a folder that contains System3.x game files (`*.ALD`).
 3. If prompted, specify `xsys35c` / `xsys35dc` / `xsystem35` locations. See
    [below](#extension-settings) for details.
-4. Open the command palette (`Ctrl+Shift+P` or `F1`), and enter `system3x`.
-   Select `System3x: Decompile` from the completion list. Decompiled source
-   files will be generated in the `src` folder, and this extension opens the
-   first `ADV` file automatically.
-5. Press `F5` to start the debugger.
+4. Open the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or
+   <kbd>F1</kbd>), and enter `system3x`. Select `System3x: Decompile` from the
+   completion list. Decompiled source files will be generated in the `src`
+   folder, and this extension opens the first `ADV` file automatically.
+5. Press <kbd>F5</kbd> to start the debugger.
 
 ## Extension Settings
 
@@ -67,23 +67,23 @@ generates decompiled source files into it.
 
 ### Compiling
 
-By default, the `Start Debugging` command (`F5`) automatically rebuilds the
-game from source files in the `src` folder.
+By default, the `Start Debugging` command (<kbd>F5</kbd>) automatically
+rebuilds the game from source files in the `src` folder.
 
 If you want to build the game without running it, select `Configure Default
 Build Task` from the `Terminal` menu, and select `xsys35c: build`. This will
 generate a `tasks.json` file. Now you can use the `Run Build Task` command
-(`Ctrl+Shift+B`) to build the game.
+(<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>) to build the game.
 
 ### Running
 
-If there is no `launch.json` file, the `Start Debugging` command (`F5`) will
-start xsystem35 (the game engine) with default settings. This works only when
-an `.ADV` file is open in the current tab.
+If there is no `launch.json` file, the `Start Debugging` command
+(<kbd>F5</kbd>) will start xsystem35 (the game engine) with default settings.
+This works only when an `.ADV` file is open in the current tab.
 
-To make `F5` always work, or to customize the launch settings, select `Add
-Configuration` from the `Run` menu. This will generate a `launch.json` file
-like this:
+To make <kbd>F5</kbd> always work, or to customize the launch settings, select
+`Add Configuration` from the `Run` menu. This will generate a `launch.json`
+file like this:
 
 ```json
 {
