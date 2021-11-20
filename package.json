@@ -155,7 +155,7 @@
               "stopOnEntry": {
                 "type": "boolean",
                 "description": "Automatically stop after launch.",
-                "default": true
+                "default": false
               },
               "trace": {
                 "type": "boolean",
@@ -174,7 +174,7 @@
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
             "logLevel": 1,
-            "stopOnEntry": true,
+            "stopOnEntry": false,
             "preLaunchTask": "xsys35c: build"
           }
         ],
@@ -190,7 +190,7 @@
               "runDir": "^\"\\${workspaceFolder}\"",
               "srcDir": "^\"\\${workspaceFolder}/src\"",
               "logLevel": 1,
-              "stopOnEntry": true,
+              "stopOnEntry": false,
               "preLaunchTask": "xsys35c: build"
             }
           }

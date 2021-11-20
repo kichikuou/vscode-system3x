@@ -97,7 +97,7 @@ file like this:
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
             "logLevel": 1,
-            "stopOnEntry": true,
+            "stopOnEntry": false,
             "preLaunchTask": "xsys35c: build"
         }
     ]
