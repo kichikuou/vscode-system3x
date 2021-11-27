@@ -93,7 +93,7 @@ file like this:
             "type": "xsystem35",
             "request": "launch",
             "name": "Debug",
-            "executable": "${config:system3x.xsystem35Path}",
+            "program": "${config:system3x.xsystem35Path}",
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
             "logLevel": 1,

@@ -133,10 +133,16 @@
         "configurationAttributes": {
           "launch": {
             "required": [
+              "program",
               "runDir",
               "srcDir"
             ],
             "properties": {
+              "program": {
+                "type": "string",
+                "description": "Path to the xsystem35 executable file.",
+                "default": "${config:system3x.xsystem35Path}"
+              },
               "env": {
                 "type": "object",
                 "additionalProperties": {
@@ -178,7 +184,7 @@
             "type": "xsystem35",
             "request": "launch",
             "name": "Debug",
-            "executable": "${config:system3x.xsystem35Path}",
+            "program": "${config:system3x.xsystem35Path}",
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
             "logLevel": 1,
@@ -194,7 +200,7 @@
               "type": "xsystem35",
               "request": "launch",
               "name": "Debug",
-              "executable": "^\"\\${config:system3x.xsystem35Path}\"",
+              "program": "^\"\\${config:system3x.xsystem35Path}\"",
               "runDir": "^\"\\${workspaceFolder}\"",
               "srcDir": "^\"\\${workspaceFolder}/src\"",
               "logLevel": 1,
