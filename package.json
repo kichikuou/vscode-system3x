@@ -137,6 +137,14 @@
               "srcDir"
             ],
             "properties": {
+              "env": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Environment variables defined as a key value pair.",
+                "default": {}
+              },
               "runDir": {
                 "type": "string",
                 "description": "Directory that contains game files.",

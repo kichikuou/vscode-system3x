@@ -1,8 +1,15 @@
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import * as vscode from 'vscode';
 
-function xsystem35Args(config: vscode.DebugConfiguration) {
+function xsystem35Args(config: vscode.DebugConfiguration): string[] {
 	return ['-debug_dap', '-debuglv', config.logLevel];
+}
+
+function xsystem35Options(config: vscode.DebugConfiguration): any {
+	const options: any = { cwd: config.runDir };
+	if (config.env)
+		options.env = config.env;
+	return options;
 }
 
 export class Xsystem35DebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
@@ -11,7 +18,7 @@ export class Xsystem35DebugAdapterFactory implements vscode.DebugAdapterDescript
 		if (config.trace) {
 			return new vscode.DebugAdapterInlineImplementation(new LoggingDebugAdapter(config));
 		} else {
-			return new vscode.DebugAdapterExecutable(config.executable, xsystem35Args(config), { cwd: config.runDir });
+			return new vscode.DebugAdapterExecutable(config.executable, xsystem35Args(config), xsystem35Options(config));
 		}
 	}
 }
@@ -24,7 +31,7 @@ class LoggingDebugAdapter implements vscode.DebugAdapter {
 	private contentLength = -1;
 
 	constructor(config: vscode.DebugConfiguration) {
-		this.xsys35 = spawn(config.executable, xsystem35Args(config), { cwd: config.runDir });
+		this.xsys35 = spawn(config.executable, xsystem35Args(config), xsystem35Options(config));
 		this.xsys35.on('error', (err) => console.error(err));
 		this.xsys35.on('exit', (code) => console.log('xsystem35 exited with code ' + code));
 		this.xsys35.stdout.on('data', this.onXsys35Output.bind(this));
