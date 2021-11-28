@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { Xsys35cTaskProvider } from './taskProvider';
 import { Xsystem35DebugAdapterFactory } from './adapter';
 import { decompileWorkspace } from './decompile';
+import { System3xDefinitionProvider } from './language';
 
 type Dependency = { name: string, versionFlag: string, minimumRequired: string, config: string }
 const dependencies: Dependency[] = [
@@ -34,6 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
 		vscode.workspace.onDidChangeConfiguration(handleConfigurationChange),
 		vscode.languages.registerEvaluatableExpressionProvider('system35', new System3xEvaluatableExpressionProvider()),
+		vscode.languages.registerDefinitionProvider('system35', new System3xDefinitionProvider(context)),
 	);
 
 	for (const dep of dependencies) {

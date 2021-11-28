@@ -7,6 +7,8 @@ This extension adds support for the AliceSoft's System 3.x language.
 ## Features
 
 - Syntax highlighting for `.ADV` source files
+- [Go to Definition](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition)
+  for functions
 - Decompiling and Compiling (using [xsys35c])
 - Debugging (using [xsystem35-sdl2])
 
