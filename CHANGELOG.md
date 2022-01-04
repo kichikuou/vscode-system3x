@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.1
+- The extension is now activated when an `.ADV` file is opened.
+
 ## 0.2.0
 - Added support for "Go to Definition" for functions.
 - The `executable` launch.json property was renamed to `program`. `executable`
