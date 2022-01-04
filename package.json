@@ -27,7 +27,8 @@
     "onDebugResolve:xsystem35",
     "onDebugDynamicConfigurations:system35",
     "onCommand:system3x.decompile",
-    "workspaceContains:*S?.ALD"
+    "onLanguage:system35",
+    "workspaceContains:*[sS]?.[aA][lL][dD]"
   ],
   "main": "./out/extension.js",
   "contributes": {
