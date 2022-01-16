@@ -23,7 +23,7 @@ export async function decompileWorkspace() {
 	const ainFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '[sS][yY][sS][tT][eE][mM]39.[aA][iI][nN]'));
 
 	const config = vscode.workspace.getConfiguration('system3x');
-	const args: string[] = config.xsys35dcOptions;
+	const args: string[] = [].concat(config.xsys35dcOptions);
 	args.push('--outdir=src');
 	for (const ald of aldFiles) {
 		args.push(ald.fsPath);
