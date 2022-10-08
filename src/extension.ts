@@ -5,16 +5,24 @@ import { Xsystem35DebugAdapterFactory } from './adapter';
 import { decompileWorkspace } from './decompile';
 import { System3xDefinitionProvider } from './language';
 
-type Dependency = { name: string, versionFlag: string, minimumRequired: string, config: string }
+type Dependency = {
+	name: string,
+	optional?: boolean,
+	versionFlag: string,
+	minimumRequired: string,
+	config: string
+};
 const dependencies: Dependency[] = [
 	{
 		name: 'xsys35dc',
+		optional: true,
 		versionFlag: '--version',
 		minimumRequired: '1.7.0',
 		config: 'xsys35dcPath'
 	},
 	{
 		name: 'xsys35c',
+		optional: true,
 		versionFlag: '--version',
 		minimumRequired: '1.7.0',
 		config: 'xsys35cPath'
@@ -52,6 +60,9 @@ function handleConfigurationChange(event: vscode.ConfigurationChangeEvent) {
 }
 
 function checkProgramVersion(path: string, dep: Dependency): Promise<string | null> {
+	if (!path) {
+		return Promise.resolve(`Location of ${dep.name} is not set.`);
+	}
 	return new Promise((resolve, reject) => {
 		execFile(path, [dep.versionFlag], async (error: ExecFileException | null, stdout: string, stderr: string) => {
 			if (error) {
@@ -91,6 +102,9 @@ export function deactivate() { }
 async function checkDependency(dep: Dependency) {
 	const config = vscode.workspace.getConfiguration('system3x');
 	const value = config.get(dep.config) as string;
+	if (dep.optional && !value) {
+		return;
+	}
 	const errmsg = await checkProgramVersion(value, dep);
 	if (!errmsg) {
 		return;

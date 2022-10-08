@@ -4,9 +4,12 @@ out/test/**
 
 src/**
 .gitignore
+.gitmodules
 .yarnrc
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/.eslintrc.json
 **/*.map
 **/*.ts
+xsys35c
+build-xsys35c.sh

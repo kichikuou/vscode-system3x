@@ -58,8 +58,7 @@
       "properties": {
         "system3x.xsys35cPath": {
           "type": "string",
-          "default": "xsys35c",
-          "description": "Specifies the path to xsys35c executable."
+          "description": "The path to xsys35c executable. If not specified, bundled xsys35c will be used."
         },
         "system3x.xsys35dcOptions": {
           "type": "array",
@@ -71,8 +70,7 @@
         },
         "system3x.xsys35dcPath": {
           "type": "string",
-          "default": "xsys35dc",
-          "description": "Specifies the path to xsys35dc executable."
+          "description": "The path to xsys35dc executable. If not specified, bundled xsys35dc will be used."
         },
         "system3x.xsystem35Path": {
           "type": "string",
@@ -214,7 +212,8 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run compile && npm run build-wasm",
+    "build-wasm": "./build-xsys35c.sh",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },

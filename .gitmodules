@@ -1,0 +1,3 @@
+[submodule "xsys35c"]
+	path = xsys35c
+	url = https://github.com/kichikuou/xsys35c.git
