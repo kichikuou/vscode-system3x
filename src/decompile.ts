@@ -34,32 +34,20 @@ function decompileWithExternalDecompiler(decompilerPath: string, args: string[],
 	for (const f of files) {
 		args.push(f.fsPath);
 	}
-	const task = new vscode.Task(
-		{ type: 'decompile' }, vscode.TaskScope.Workspace, 'decompile', 'xsys35dc',
-		new vscode.ShellExecution(decompilerPath, args));
-	return executeShellTask(task);
+	return executeDecompilation(new vscode.ShellExecution(decompilerPath, args));
 }
 
-function decompileInProcess(workspaceRoot: string, args: string[], files: vscode.Uri[]): Promise<number> {
-	return new Promise((resolve, reject) => {
-		try {
-			args.push('--outdir=/workspace/src');
-			for (const file of files) {
-				args.push('/workspace/' + vscode.workspace.asRelativePath(file));
-			}
-			const workerData = {
-				executable: './xsys35dc',
-				workspaceRoot,
-				args,
-			};
-			const pty = new WorkerTerminal(workerData);
-			pty.onDidClose!((exitCode) => resolve(exitCode));
-			const terminal = vscode.window.createTerminal({ name: 'Decompile', pty });
-			terminal.show();
-		} catch (err) {
-			reject(err);
-		}
-	});
+function decompileInProcess(workspaceRoot: string, args: string[], files: vscode.Uri[]): Promise<number | undefined> {
+	args.push('--outdir=/workspace/src');
+	for (const file of files) {
+		args.push('/workspace/' + vscode.workspace.asRelativePath(file));
+	}
+	const workerData = {
+		executable: './xsys35dc',
+		workspaceRoot,
+		args,
+	};
+	return executeDecompilation(new vscode.CustomExecution(async () => new WorkerTerminal(workerData)));
 }
 
 async function getDecompilerInputFiles(folder: vscode.WorkspaceFolder): Promise<vscode.Uri[] | undefined> {
@@ -99,12 +87,14 @@ async function openAdv(workspaceUri: vscode.Uri) {
 	await vscode.commands.executeCommand('vscode.open', advUri);
 }
 
-async function executeShellTask(task: vscode.Task): Promise<number | undefined> {
-	const execution = await vscode.tasks.executeTask(task);
+async function executeDecompilation(execution: vscode.ShellExecution | vscode.CustomExecution): Promise<number | undefined> {
+	const task = new vscode.Task(
+		{ type: 'decompile' }, vscode.TaskScope.Workspace, 'decompile', 'xsys35dc', execution);
+	const taskExecution = await vscode.tasks.executeTask(task);
 
 	return new Promise(resolve => {
 		let disposable = vscode.tasks.onDidEndTaskProcess(e => {
-			if (e.execution === execution) {
+			if (e.execution === taskExecution) {
 				disposable.dispose();
 				resolve(e.exitCode);
 			}
