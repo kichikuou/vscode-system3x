@@ -1,7 +1,9 @@
 import * as vscode from 'vscode';
 import { WorkerTerminal } from './terminal';
 
-export class Xsys35cTaskProvider implements vscode.TaskProvider {
+const taskType = 'xsys35c';
+
+export class CompileTaskProvider implements vscode.TaskProvider {
 	private getTasksDone: Thenable<vscode.Task[]> | undefined = undefined;
 
 	public provideTasks(): Thenable<vscode.Task[]> | undefined {
@@ -23,7 +25,7 @@ async function getTasks(): Promise<vscode.Task[]> {
 	const cfgFiles = await vscode.workspace.findFiles('**/xsys35c.cfg');
 	const result: vscode.Task[] = [];
 	for (const cfg of cfgFiles) {
-		result.push(createTask({ type: 'xsys35c', config: cfg.fsPath }));
+		result.push(createTask({ type: taskType, config: cfg.fsPath }));
 	}
 	return result;
 }
@@ -43,7 +45,6 @@ function createTask(definition: vscode.TaskDefinition): vscode.Task {
 			  }
 			);
 	return new vscode.Task(
-		definition, vscode.TaskScope.Workspace, 'build', 'xsys35c',
-		execution,
-		'$xsys35c');
+		definition, vscode.TaskScope.Workspace, 'build', definition.type,
+		execution, '$xsys35c');
 }

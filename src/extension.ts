@@ -1,8 +1,8 @@
 import { execFile, ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
-import { Xsys35cTaskProvider } from './taskProvider';
-import { Xsystem35DebugAdapterFactory } from './adapter';
+import { CompileTaskProvider } from './compile';
 import { decompileWorkspace } from './decompile';
+import { Xsystem35DebugAdapterFactory } from './adapter';
 import { System3xDefinitionProvider } from './language';
 
 type Dependency = {
@@ -37,7 +37,7 @@ const dependencies: Dependency[] = [
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
-		vscode.tasks.registerTaskProvider('xsys35c', new Xsys35cTaskProvider()),
+		vscode.tasks.registerTaskProvider('xsys35c', new CompileTaskProvider()),
 		vscode.debug.registerDebugConfigurationProvider('xsystem35', new Xsystem35ConfigurationProvider()),
 		vscode.debug.registerDebugAdapterDescriptorFactory('xsystem35', new Xsystem35DebugAdapterFactory()),
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
