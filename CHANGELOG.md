@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+- Now xsys35c (compiler) and xsys35dc (decompiler) are included in the
+  extension and no longer need to be installed separately.
+
 ## 0.2.1
 - The extension is now activated when an `.ADV` file is opened.
 
