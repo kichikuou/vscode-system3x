@@ -39,7 +39,7 @@ function createTask(definition: vscode.TaskDefinition): vscode.Task {
 				const workerData = {
 					executable: './xsys35c',
 					workspaceRoot: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
-					args: ['-p', 'src/xsys35c.cfg'],
+					args: ['-p', vscode.workspace.asRelativePath(definition.config, false)],
 				};
 				return new WorkerTerminal(workerData);
 			  }
