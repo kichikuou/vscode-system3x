@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1
+- Updated bundled xsys35c to 1.9.1.
+
 ## 0.3.0
 - Now xsys35c (compiler) and xsys35dc (decompiler) are included in the
   extension and no longer need to be installed separately.
