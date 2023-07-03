@@ -7,6 +7,7 @@ This extension adds support for the AliceSoft's System 3.x language.
 ## Features
 
 - Syntax highlighting for `.ADV` source files
+- Documentation appears when you hover over a command name
 - [Go to Definition](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition)
   for functions
 - Decompiling and Compiling (using bundled [xsys35c])
@@ -14,8 +15,9 @@ This extension adds support for the AliceSoft's System 3.x language.
 
 ## Prerequisites
 
-To use the full functionality of this extension, you will need [xsystem35-sdl2]
-(>= 2.0.0).
+- To view the command documentation, you will need the
+  [System 3.9 SDK](https://web.archive.org/web/20021018163909/http://www.alicesoft.co.jp/support/sys39agr.html)
+- To use the debugging functionality, you will need [xsystem35-sdl2] (>= 2.0.0)
 
 ## Getting Started
 
@@ -34,16 +36,12 @@ started:
 
 ## Extension Settings
 
-If you installed `xsystem35-sdl2` in your system `PATH`, no configuration is
-needed.
+To navigate to your settings, open the Settings editor (`Ctrl+,` or `Cmd+,`)
+and search for `system3x`. At least you should set `Xsystem35 Path` and
+`Manual Path` to use the full functionality of this extension.
 
-Otherwise, you need to set the path to the `xsystem35` executable. This
-extension prompts you to choose an executable if it is not found.
-
-You can also specify paths to external commands with the following settings:
-- `system3x.xsystem35Path`
-- `system3x.xsys35cPath` (optional)
-- `system3x.xsys35dcPath` (optional)
+This extension prompts you to set the required settings if they are not already
+set.
 
 ## Feature Details
 

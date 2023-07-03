@@ -4,6 +4,7 @@ import { CompileTaskProvider } from './compile';
 import { decompileWorkspace } from './decompile';
 import { Xsystem35DebugAdapterFactory } from './adapter';
 import { System3xDefinitionProvider } from './definition';
+import { System3xHoverProvider } from './hover';
 
 type Dependency = {
 	name: string,
@@ -44,6 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.workspace.onDidChangeConfiguration(handleConfigurationChange),
 		vscode.languages.registerEvaluatableExpressionProvider('system35', new System3xEvaluatableExpressionProvider()),
 		vscode.languages.registerDefinitionProvider('system35', new System3xDefinitionProvider(context)),
+		vscode.languages.registerHoverProvider('system35', new System3xHoverProvider()),
 	);
 
 	for (const dep of dependencies) {
