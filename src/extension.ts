@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import { CompileTaskProvider } from './compile';
 import { decompileWorkspace } from './decompile';
 import { Xsystem35DebugAdapterFactory } from './adapter';
-import { System3xDefinitionProvider } from './language';
+import { System3xDefinitionProvider } from './definition';
 
 type Dependency = {
 	name: string,
