@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0
+- Show SDK documentation when hovering over System 3.x builtin commands.
+
 ## 0.3.1
 - Updated bundled xsys35c to 1.9.1.
 
