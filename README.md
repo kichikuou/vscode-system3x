@@ -1,6 +1,6 @@
-# System 3.x extension for Visual Studio Code
+# System 3.x Extension for Visual Studio Code
 
-This extension adds support for the AliceSoft's System 3.x language.
+This extension adds support for AliceSoft's System 3.x language.
 
 ![Screenshot](images/debugger.png)
 
@@ -10,66 +10,64 @@ This extension adds support for the AliceSoft's System 3.x language.
 - Documentation appears when you hover over a command name
 - [Go to Definition](https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition)
   for functions
-- Decompiling and Compiling (using bundled [xsys35c])
+- Decompiling and compiling (using the bundled [xsys35c])
 - Debugging (using [xsystem35-sdl2])
 
 ## Prerequisites
 
-- To view the command documentation, you will need the
-  [System 3.9 SDK](https://web.archive.org/web/20021018163909/http://www.alicesoft.co.jp/support/sys39agr.html)
-- To use the debugging functionality, you will need [xsystem35-sdl2] (>= 2.0.0)
+- To view command documentation, you'll need the
+  [System 3.9 SDK](https://web.archive.org/web/20021018163909/http://www.alicesoft.co.jp/support/sys39agr.html).
+- To use debugging features, you'll need [xsystem35-sdl2] (version 2.0.0 or
+  higher).
 
 ## Getting Started
 
-Once you've satisfied the prerequisites, perform the following steps to get
-started:
+After meeting the prerequisites, follow these steps to get started:
 
 1. Install [this extension](https://marketplace.visualstudio.com/items?itemName=kichikuou.system3x).
-2. Open a folder that contains System3.x game files (`*.ALD`).
-3. If prompted, specify `xsystem35` location. See
+2. Open a folder containing System 3.x game files (`*.ALD`).
+3. If prompted, specify the `xsystem35` location. See
    [below](#extension-settings) for details.
 4. Open the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or
    <kbd>F1</kbd>), and enter `system3x`. Select `System3x: Decompile` from the
-   completion list. Decompiled source files will be generated in the `src`
-   folder, and this extension opens the first `ADV` file automatically.
-5. Press <kbd>F5</kbd> to start the debugger.
+   list that appears. Decompiled source files will be saved in the `src`
+   folder, and this extension will automatically open the first `.ADV` file.
+5. Press <kbd>F5</kbd> to start debugging.
 
 ## Extension Settings
 
-To navigate to your settings, open the Settings editor (`Ctrl+,` or `Cmd+,`)
-and search for `system3x`. At least you should set `Xsystem35 Path` and
-`Manual Path` to use the full functionality of this extension.
-
-This extension prompts you to set the required settings if they are not already
-set.
+To access your settings, open the Settings editor (`Ctrl+,` or `Cmd+,`) and
+search for `system3x`. To unlock the full functionality of this extension, you
+should at least set the `Xsystem35 Path` and `Manual Path`. If these settings
+are not already configured, the extension will prompt you to do so.
 
 ## Feature Details
 
 ### Decompiling
 
 The `System3x: Decompile` command decompiles System 3.x game files (`*.ALD` and
-`System39.ain`) in the workspace folder. It creates `src` subfolder and
-generates decompiled source files into it.
+`System39.ain`) located in the workspace folder. This command generates
+decompiled source files in a `src` subfolder.
 
 ### Compiling
 
 By default, the `Start Debugging` command (<kbd>F5</kbd>) automatically
-rebuilds the game from source files in the `src` folder.
+rebuilds the game using source files in the `src` folder.
 
-If you want to build the game without running it, select `Configure Default
-Build Task` from the `Terminal` menu, and select `xsys35c: build`. This will
-generate a `tasks.json` file. Now you can use the `Run Build Task` command
+To build the game without running it, select `Configure Default Build Task`
+from the `Terminal` menu and choose `xsys35c: build`. This action will generate
+a `tasks.json` file. You can then use the `Run Build Task` command
 (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>) to build the game.
 
 ### Running
 
-If there is no `launch.json` file, the `Start Debugging` command
-(<kbd>F5</kbd>) will start xsystem35 (the game engine) with default settings.
-This works only when an `.ADV` file is open in the current tab.
+If a `launch.json` file doesn't exist, pressing <kbd>F5</kbd> will start
+xsystem35 (the game engine) with default settings. But this works only when an
+`.ADV` file is open in the current tab.
 
-To make <kbd>F5</kbd> always work, or to customize the launch settings, select
-`Add Configuration` from the `Run` menu. This will generate a `launch.json`
-file like this:
+To make <kbd>F5</kbd> consistently functional, or to customize launch settings,
+select `Add Configuration` from the `Run` menu. This will generate a
+`launch.json` file as follows:
 
 ```json
 {
@@ -89,20 +87,21 @@ file like this:
     ]
 }
 ```
-Mouse hover will show descriptions of the attributes.
 
-For example, if you want to launch the game without building it, comment out
-the `"preLaunchTask": "xsys35c: build"` field.
+Mouse hovering over the attributes will display their descriptions.
+
+For example, to launch the game without building it, comment out the
+`"preLaunchTask": "xsys35c: build"` line.
 
 ### Debugging
 
-See the [Debugging](https://code.visualstudio.com/docs/editor/debugging)
-document of VS Code for how to use the debugger.
+Refer to the [Debugging](https://code.visualstudio.com/docs/editor/debugging)
+documentation in VS Code to learn how to use the debugger.
 
-The System3.x debugger supports following operations:
+The System 3.x debugger supports the following operations:
 - [Breakpoints](https://code.visualstudio.com/docs/editor/debugging#_breakpoints)
-  (including [Conditional breakpoints](https://code.visualstudio.com/docs/editor/debugging#_advanced-breakpoint-topics))
-- [Step executions](https://code.visualstudio.com/docs/editor/debugging#_debug-actions)
+- [Conditional breakpoints](https://code.visualstudio.com/docs/editor/debugging#_advanced-breakpoint-topics)
+- [Step-through execution](https://code.visualstudio.com/docs/editor/debugging#_debug-actions)
 - [Data inspection](https://code.visualstudio.com/docs/editor/debugging#_data-inspection)
 - [Debug console REPL](https://code.visualstudio.com/docs/editor/debugging#_debug-console-repl)
 
