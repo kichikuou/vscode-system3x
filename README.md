@@ -54,10 +54,8 @@ decompiled source files in a `src` subfolder.
 By default, the `Start Debugging` command (<kbd>F5</kbd>) automatically
 rebuilds the game using source files in the `src` folder.
 
-To build the game without running it, select `Configure Default Build Task`
-from the `Terminal` menu and choose `xsys35c: build`. This action will generate
-a `tasks.json` file. You can then use the `Run Build Task` command
-(<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>) to build the game.
+To build the game without running it, use the `Run Build Task` command
+(<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>) and choose `xsys35c: build`.
 
 ### Running
 

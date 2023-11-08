@@ -44,7 +44,9 @@ function createTask(definition: vscode.TaskDefinition): vscode.Task {
 				return new WorkerTerminal(workerData);
 			  }
 			);
-	return new vscode.Task(
+	const task = new vscode.Task(
 		definition, vscode.TaskScope.Workspace, 'build', definition.type,
 		execution, '$xsys35c');
+	task.group = vscode.TaskGroup.Build;
+	return task;
 }
