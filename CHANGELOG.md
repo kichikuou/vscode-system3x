@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+- Updated bundled xsys35c to 1.10.0.
+- Now "xsys35c: build" should appear in the list of build tasks shown by Ctrl+Shift+B.
+
 ## 0.4.0
 - Show SDK documentation when hovering over System 3.x builtin commands.
 
