@@ -2,7 +2,7 @@ import { execFile, ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
 import { CompileTaskProvider } from './compile';
 import { decompileWorkspace } from './decompile';
-import { Xsystem35DebugAdapterFactory } from './adapter';
+import { Xsystem35DebugAdapterFactory, Xsystem35DebugAdapterTrackerFactory } from './debugger';
 import { System3xDefinitionProvider } from './definition';
 import { System3xHoverProvider } from './hover';
 
@@ -41,6 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.tasks.registerTaskProvider('xsys35c', new CompileTaskProvider()),
 		vscode.debug.registerDebugConfigurationProvider('xsystem35', new Xsystem35ConfigurationProvider()),
 		vscode.debug.registerDebugAdapterDescriptorFactory('xsystem35', new Xsystem35DebugAdapterFactory()),
+		vscode.debug.registerDebugAdapterTrackerFactory('xsystem35', new Xsystem35DebugAdapterTrackerFactory()),
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
 		vscode.workspace.onDidChangeConfiguration(handleConfigurationChange),
 		vscode.languages.registerEvaluatableExpressionProvider('system35', new System3xEvaluatableExpressionProvider()),
@@ -61,7 +62,7 @@ function handleConfigurationChange(event: vscode.ConfigurationChangeEvent) {
 	}
 }
 
-function checkProgramVersion(path: string, dep: Dependency): Promise<string | null> {
+function checkProgramVersion(path: string | undefined, dep: Dependency): Promise<string | null> {
 	if (!path) {
 		return Promise.resolve(`Location of ${dep.name} is not set.`);
 	}
@@ -103,7 +104,7 @@ export function deactivate() { }
 
 async function checkDependency(dep: Dependency) {
 	const config = vscode.workspace.getConfiguration('system3x');
-	const value = config.get(dep.config) as string;
+	const value = config.get<string>(dep.config);
 	if (dep.optional && !value) {
 		return;
 	}
