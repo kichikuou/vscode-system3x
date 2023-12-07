@@ -126,6 +126,15 @@
         "language": "system35"
       }
     ],
+    "views": {
+      "debug": [
+        {
+          "type": "webview",
+          "id": "system3x.palette",
+          "name": "Color Palette"
+        }
+      ]
+    },
     "debuggers": [
       {
         "type": "xsystem35",

@@ -2,7 +2,7 @@ import { execFile, ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
 import { CompileTaskProvider } from './compile';
 import { decompileWorkspace } from './decompile';
-import { Xsystem35DebugAdapterFactory, Xsystem35DebugAdapterTrackerFactory } from './debugger';
+import { activateDebugger } from './debugger';
 import { System3xDefinitionProvider } from './definition';
 import { System3xHoverProvider } from './hover';
 
@@ -40,14 +40,13 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.tasks.registerTaskProvider('xsys35c', new CompileTaskProvider()),
 		vscode.debug.registerDebugConfigurationProvider('xsystem35', new Xsystem35ConfigurationProvider()),
-		vscode.debug.registerDebugAdapterDescriptorFactory('xsystem35', new Xsystem35DebugAdapterFactory()),
-		vscode.debug.registerDebugAdapterTrackerFactory('xsystem35', new Xsystem35DebugAdapterTrackerFactory()),
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
 		vscode.workspace.onDidChangeConfiguration(handleConfigurationChange),
 		vscode.languages.registerEvaluatableExpressionProvider('system35', new System3xEvaluatableExpressionProvider()),
 		vscode.languages.registerDefinitionProvider('system35', new System3xDefinitionProvider(context)),
 		vscode.languages.registerHoverProvider('system35', new System3xHoverProvider()),
 	);
+	activateDebugger(context);
 
 	for (const dep of dependencies) {
 		checkDependency(dep);
