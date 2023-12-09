@@ -1,4 +1,6 @@
+/// <reference types="../assets/assets.d.ts" />
 import * as vscode from 'vscode';
+import palette_view_html from '../assets/palette_view.html';
 
 export function activateDebugger(context: vscode.ExtensionContext) {
 	const paletteViewProvider = new PaletteViewProvider();
@@ -60,54 +62,7 @@ class PaletteViewProvider implements vscode.WebviewViewProvider {
 				this.update();
 			}
 		});
-		this.view.webview.html = `
-			<!DOCTYPE html>
-			<html>
-			<head>
-				<style>
-					table {
-						border-collapse: collapse;
-						width: 100%;
-					}
-					td {
-						width: 5vw;
-						height: 5vw;
-						border: 1px solid #ccc;
-					}
-				</style>
-			</head>
-			<body>
-				<table id="palette" />
-				<script>
-					const cells = [];
-
-					function createPaletteGrid() {
-						const table = document.getElementById("palette");
-						for (let i = 0; i < 16; i++) {
-							const row = table.insertRow();
-							for (let j = 0; j < 16; j++) {
-								cells.push(row.insertCell());
-							}
-						}
-					}
-
-					function updatePaletteGrid(palette) {
-						for (let i = 0; i < 256; i++) {
-							const color = palette[i];
-							const red = (color >> 16) & 0xFF;
-							const green = (color >> 8) & 0xFF;
-							const blue = color & 0xFF;
-							cells[i].style.backgroundColor = \`rgb(\${red}, \${green}, \${blue})\`;
-						}
-					}
-
-					createPaletteGrid();
-					window.addEventListener("message", (e) => updatePaletteGrid(e.data));
-					acquireVsCodeApi().postMessage('loaded');
-				</script>
-			</body>
-			</html>
-		`;
+		this.view.webview.html = palette_view_html;
 	}
 
 	onDidStartDebugSession(session: vscode.DebugSession) {

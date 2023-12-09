@@ -19,8 +19,7 @@ async function workerMain() {
 		print: (s: string) => parentPort!.postMessage(s),
 		printErr: (s: string) => parentPort!.postMessage(s),
 	};
-	// @ts-ignore
-	const instance = await import(workerData.executable);
+	const instance = require(workerData.executable);
 	await instance(Module);
 }
 
