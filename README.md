@@ -102,6 +102,7 @@ The System 3.x debugger supports the following operations:
 - [Step-through execution](https://code.visualstudio.com/docs/editor/debugging#_debug-actions)
 - [Data inspection](https://code.visualstudio.com/docs/editor/debugging#_data-inspection)
 - [Debug console REPL](https://code.visualstudio.com/docs/editor/debugging#_debug-console-repl)
+- Color palette viewer (in the Run and Debug View of the side bar)
 
 
 [xsys35c]: https://github.com/kichikuou/xsys35c

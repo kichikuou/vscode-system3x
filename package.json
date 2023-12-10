@@ -14,7 +14,7 @@
     "email": "KichikuouChrome@gmail.com"
   },
   "icon": "images/icon.png",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "engines": {
     "vscode": "^1.62.0"
   },
@@ -225,7 +225,7 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run build && npm run build-wasm",
+    "vscode:prepublish": "npm run type && npm run build && npm run build-wasm",
     "type": "tsc -p src/",
     "build": "node build.mjs",
     "watch": "node build.mjs --watch",

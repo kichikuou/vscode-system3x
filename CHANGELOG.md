@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.6.0
+- Added "Color Palette" view to the Run and Debug View of the side bar.
+  (requires xsystem35-sdl 2.10.0 or later)
+
 ## 0.5.0
 - Updated bundled xsys35c to 1.10.0.
-- Now "xsys35c: build" should appear in the list of build tasks shown by Ctrl+Shift+B.
+- Now "xsys35c: build" should appear in the list of build tasks shown by
+  `Ctrl`+`Shift`+`B`.
 
 ## 0.4.0
 - Show SDK documentation when hovering over System 3.x builtin commands.
