@@ -1,8 +1,9 @@
 .vscode
 src/
+assets/
 node_modules
 .gitignore
 .gitmodules
-tsconfig.json
+build.mjs
 xsys35c
 build-xsys35c.sh
