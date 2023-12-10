@@ -12,21 +12,29 @@ td {
 }
 </style>
 </head><body>
-<table id="palette" />
+<table id="palette"></table>
+<div id="message"></div>
 <script>
-const cells = [];
 
-function createPaletteGrid() {
-    const table = document.getElementById("palette");
-    for (let i = 0; i < 16; i++) {
-        const row = table.insertRow();
-        for (let j = 0; j < 16; j++) {
-            cells.push(row.insertCell());
-        }
+const table = document.getElementById("palette");
+const cells = [];
+for (let i = 0; i < 16; i++) {
+    const row = table.insertRow();
+    for (let j = 0; j < 16; j++) {
+        cells.push(row.insertCell());
     }
 }
 
-function updatePaletteGrid(palette) {
+const msgDiv = document.getElementById("message");
+function onMessage(data) {
+    if (data.error) {
+        msgDiv.innerText = data.error;
+        table.style.display = "none";
+        return;
+    }
+    table.style.display = '';
+
+    const palette = data.palette;
     for (let i = 0; i < 256; i++) {
         const color = palette[i];
         const red = (color >> 16) & 0xFF;
@@ -36,8 +44,8 @@ function updatePaletteGrid(palette) {
     }
 }
 
-createPaletteGrid();
-window.addEventListener("message", (e) => updatePaletteGrid(e.data));
+window.addEventListener("message", (e) => onMessage(e.data));
 acquireVsCodeApi().postMessage('loaded');
+
 </script>
 </body></html>

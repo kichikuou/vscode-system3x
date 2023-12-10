@@ -85,10 +85,15 @@ class PaletteViewProvider implements vscode.WebviewViewProvider {
 				const resp = await vscode.debug.activeDebugSession?.customRequest('xsystem35.palette');
 				if (!resp || !this.view) break;
 				this.ourVersion = resp.version;
-				this.view.webview.postMessage(resp.palette);
+				this.view.webview.postMessage({ palette: resp.palette });
 			}
 		} catch (e) {
 			console.log(e);
+			if (this.view) {
+				this.view.webview.postMessage({
+					error: 'Error reading palette (xsystem35-sdl2 >=2.10.0 required)'
+				});
+			}
 		}
 		this.updating = false;
 	}
