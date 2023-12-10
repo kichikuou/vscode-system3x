@@ -25,6 +25,23 @@ for (let i = 0; i < 16; i++) {
     }
 }
 
+let palette = null;
+for (let i = 0; i < 256; i++) {
+    const index = i;
+    cells[i].addEventListener('mouseover', () => {
+        if (palette) {
+            const color = palette[i];
+            const red = (color >> 16) & 0xFF;
+            const green = (color >> 8) & 0xFF;
+            const blue = color & 0xFF;
+            msgDiv.innerText = `${index}: (${red}, ${green}, ${blue})`;
+        }
+    });
+}
+table.addEventListener('mouseout', () => {
+    msgDiv.innerText = '';
+});
+
 const msgDiv = document.getElementById("message");
 function onMessage(data) {
     if (data.error) {
@@ -34,7 +51,7 @@ function onMessage(data) {
     }
     table.style.display = '';
 
-    const palette = data.palette;
+    palette = data.palette;
     for (let i = 0; i < 256; i++) {
         const color = palette[i];
         const red = (color >> 16) & 0xFF;
