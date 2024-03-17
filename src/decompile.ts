@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { WorkerTerminal } from './terminal';
+import { taskType } from './compile';
 
 // Decompile *SA.ALD and System39.ain in the workspace root directory.
 // Decompiled ADV files are written into the `src` subdirectory.
@@ -89,7 +90,7 @@ async function openAdv(workspaceUri: vscode.Uri) {
 
 async function executeDecompilation(execution: vscode.ShellExecution | vscode.CustomExecution): Promise<number | undefined> {
 	const task = new vscode.Task(
-		{ type: 'decompile' }, vscode.TaskScope.Workspace, 'decompile', 'xsys35dc', execution);
+		{ type: taskType }, vscode.TaskScope.Workspace, 'decompile', 'xsys35dc', execution);
 	const taskExecution = await vscode.tasks.executeTask(task);
 
 	return new Promise(resolve => {

@@ -1,6 +1,6 @@
 import { execFile, ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
-import { CompileTaskProvider } from './compile';
+import { taskType, CompileTaskProvider } from './compile';
 import { decompileWorkspace } from './decompile';
 import { activateDebugger } from './debugger';
 import { System3xDefinitionProvider } from './definition';
@@ -38,7 +38,7 @@ const dependencies: Dependency[] = [
 
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
-		vscode.tasks.registerTaskProvider('xsys35c', new CompileTaskProvider()),
+		vscode.tasks.registerTaskProvider(taskType, new CompileTaskProvider()),
 		vscode.debug.registerDebugConfigurationProvider('xsystem35', new Xsystem35ConfigurationProvider()),
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
 		vscode.workspace.onDidChangeConfiguration(handleConfigurationChange),

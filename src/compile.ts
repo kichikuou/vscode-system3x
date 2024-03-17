@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { WorkerTerminal } from './terminal';
 
-const taskType = 'xsys35c';
+export const taskType = 'xsys35c';
 
 export class CompileTaskProvider implements vscode.TaskProvider {
 	private getTasksDone: Thenable<vscode.Task[]> | undefined = undefined;
