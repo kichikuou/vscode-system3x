@@ -1,4 +1,5 @@
 /// <reference types="../assets/assets.d.ts" />
+import { execFile, ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
 import palette_view_html from '../assets/palette_view.html';
 
@@ -23,13 +24,46 @@ export function activateDebugger(context: vscode.ExtensionContext) {
 }
 
 class DebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
-	createDebugAdapterDescriptor(session: vscode.DebugSession): vscode.ProviderResult<vscode.DebugAdapterDescriptor> {
+	async createDebugAdapterDescriptor(session: vscode.DebugSession) {
 		const config = session.configuration;
-		const args = ['-debug_dap', '-debuglv', config.logLevel];
+		const xsystem35 = config.program;
 		const options: any = { cwd: config.runDir };
 		if (config.env)
 			options.env = config.env;
-		return new vscode.DebugAdapterExecutable(config.program, args, options);
+
+		// vscode.DebugAdapterExecutable silently fails if it can't launch the program.
+		// https://github.com/microsoft/vscode/issues/108145
+		// We need to check if the program exists and is executable beforehand.
+		let err = await this.checkExecutable(xsystem35, ['-version'], options);
+		if (err) {
+			if (process.platform === 'win32' && xsystem35 == 'xsystem35') {
+				err += '\nPlease copy xsystem35.exe to the workspace folder and try again.';
+			} else {
+				err += '\nPlease install xsystem35 and set the path in the settings.';
+			}
+			vscode.window.showErrorMessage(err);
+		}
+
+		const args = ['-debug_dap', '-debuglv', config.logLevel];
+		return new vscode.DebugAdapterExecutable(xsystem35, args, options);
+	}
+
+	private checked = new Set<string>();
+	checkExecutable(path: string, args: string[], options: any): Promise<string | null> {
+		if (this.checked.has(path)) return Promise.resolve(null);
+		return new Promise((resolve) => {
+			execFile(path, args, options, (error: ExecFileException | null) => {
+				if (error) {
+					if (error.code === 'ENOENT') {
+						resolve(`${path} is not found.`);
+					} else {
+						resolve(`Error running ${path}. (Code: ${error.code})`);
+					}
+				}
+				this.checked.add(path);
+				resolve(null);
+			});
+		});
 	}
 }
 
