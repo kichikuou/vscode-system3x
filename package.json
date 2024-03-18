@@ -16,14 +16,14 @@
   "icon": "images/icon.png",
   "version": "0.6.0",
   "engines": {
-    "vscode": "^1.62.0"
+    "vscode": "^1.64.0"
   },
   "categories": [
     "Programming Languages",
     "Debuggers"
   ],
   "activationEvents": [
-    "onCommand:workbench.action.tasks.runTask",
+    "onTaskType:xsys35c",
     "onDebugResolve:xsystem35",
     "onDebugDynamicConfigurations:system35",
     "onCommand:system3x.decompile",
@@ -233,7 +233,7 @@
   },
   "dependencies": {
     "@types/node": "14.x",
-    "@types/vscode": "1.62.0",
+    "@types/vscode": "1.64.0",
     "esbuild": "^0.19.8",
     "typescript": "^5.2.2"
   }
