@@ -26,20 +26,15 @@ After meeting the prerequisites, follow these steps to get started:
 
 1. Install [this extension](https://marketplace.visualstudio.com/items?itemName=kichikuou.system3x).
 2. Open a folder containing System 3.x game files (`*.ALD`).
-3. If prompted, specify the `xsystem35` location. See
-   [below](#extension-settings) for details.
-4. Open the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or
+3. Open the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> or
    <kbd>F1</kbd>), and enter `system3x`. Select `System3x: Decompile` from the
    list that appears. Decompiled source files will be saved in the `src`
    folder, and this extension will automatically open the first `.ADV` file.
+4. If you want to use the debugger, you need [xsystem35-sdl2].
+   - On Windows, copy `xsystem35.exe` to the same folder as the `*.ALD` files.
+   - On other platforms, follow the installation instructions for
+     [xsystem35-sdl2].
 5. Press <kbd>F5</kbd> to start debugging.
-
-## Extension Settings
-
-To access your settings, open the Settings editor (`Ctrl+,` or `Cmd+,`) and
-search for `system3x`. To unlock the full functionality of this extension, you
-should at least set the `Xsystem35 Path` and `Manual Path`. If these settings
-are not already configured, the extension will prompt you to do so.
 
 ## Feature Details
 
@@ -103,6 +98,11 @@ The System 3.x debugger supports the following operations:
 - [Data inspection](https://code.visualstudio.com/docs/editor/debugging#_data-inspection)
 - [Debug console REPL](https://code.visualstudio.com/docs/editor/debugging#_debug-console-repl)
 - Color palette viewer (in the Run and Debug View of the side bar)
+
+## Extension Settings
+
+To access your settings, open the Settings editor (`Ctrl+,` or `Cmd+,`) and
+search for `system3x`.
 
 
 [xsys35c]: https://github.com/kichikuou/xsys35c
