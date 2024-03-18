@@ -14,7 +14,7 @@
     "email": "KichikuouChrome@gmail.com"
   },
   "icon": "images/icon.png",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "engines": {
     "vscode": "^1.64.0"
   },

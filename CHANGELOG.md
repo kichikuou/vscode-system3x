@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1
+- On Windows, use xsystem35.exe in the workspace folder by default. This is
+  currently the recommended way to install it.
+- Fixed an issue where the error `Error: there is no registered task type
+  'decompile'...` was displayed on the OUTPUT tab.
+
 ## 0.6.0
 - Added "Color Palette" view to the Run and Debug View of the side bar.
   (requires xsystem35-sdl 2.10.0 or later)
