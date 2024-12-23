@@ -3,11 +3,19 @@ import { execFile, ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
 import palette_view_html from '../assets/palette_view.html';
 
+type DebuggerType = 'xsystem35' | 'system3';
+const debuggers: DebuggerType[] = ['xsystem35', 'system3'];
+
 export function activateDebugger(context: vscode.ExtensionContext) {
 	const paletteViewProvider = new PaletteViewProvider();
+	for (const debuggerType of debuggers) {
+		context.subscriptions.push(
+			vscode.debug.registerDebugConfigurationProvider(debuggerType, new DebugConfigurationProvider(debuggerType)),
+			vscode.debug.registerDebugAdapterDescriptorFactory(debuggerType, new DebugAdapterFactory(debuggerType)),
+			vscode.debug.registerDebugAdapterTrackerFactory(debuggerType, new DebugAdapterTrackerFactory()),
+		);
+	}
 	context.subscriptions.push(
-		vscode.debug.registerDebugAdapterDescriptorFactory('xsystem35', new DebugAdapterFactory()),
-		vscode.debug.registerDebugAdapterTrackerFactory('xsystem35', new DebugAdapterTrackerFactory()),
 		vscode.window.registerWebviewViewProvider('system3x.palette', paletteViewProvider),
 		vscode.debug.onDidStartDebugSession((session) => paletteViewProvider.onDidStartDebugSession(session)),
 		vscode.debug.onDidReceiveDebugSessionCustomEvent((e) => {
@@ -23,10 +31,40 @@ export function activateDebugger(context: vscode.ExtensionContext) {
 	);
 }
 
+class DebugConfigurationProvider implements vscode.DebugConfigurationProvider {
+	constructor(private type: DebuggerType) {}
+
+	async resolveDebugConfiguration(
+		folder: vscode.WorkspaceFolder | undefined,
+		config: vscode.DebugConfiguration,
+		token?: vscode.CancellationToken
+	): Promise<vscode.DebugConfiguration> {
+		if (Object.keys(config).length > 0 || !await this.hasConfigFile(folder)) {
+			return config;
+		}
+		// If config is empty (no launch.json), copy initialConfigurations from our package.json.
+		const debugConfig =
+			vscode.extensions.getExtension('kichikuou.system3x')?.packageJSON?.
+			contributes.debuggers.find((d: any) => d.type === this.type);
+		if (debugConfig) {
+			Object.assign(config, debugConfig.initialConfigurations[0]);
+		}
+		return config;
+	}
+
+	private async hasConfigFile(folder: vscode.WorkspaceFolder | undefined): Promise<boolean> {
+		if (!folder) return false;
+		const pattern = this.type === 'xsystem35' ? '**/xsys35c.cfg' : '**/sys3c.cfg';
+		return (await vscode.workspace.findFiles(new vscode.RelativePattern(folder, pattern), null, 1)).length > 0;
+	}
+}
+
 class DebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
+	constructor(private type: DebuggerType) {}
+
 	async createDebugAdapterDescriptor(session: vscode.DebugSession) {
 		const config = session.configuration;
-		const xsystem35 = config.program;
+		const program = config.program;
 		const options: any = { cwd: config.runDir };
 		if (config.env)
 			options.env = config.env;
@@ -34,18 +72,26 @@ class DebugAdapterFactory implements vscode.DebugAdapterDescriptorFactory {
 		// vscode.DebugAdapterExecutable silently fails if it can't launch the program.
 		// https://github.com/microsoft/vscode/issues/108145
 		// We need to check if the program exists and is executable beforehand.
-		let err = await this.checkExecutable(xsystem35, ['-version'], options);
+		let err = await this.checkExecutable(program, ['-version'], options);
 		if (err) {
-			if (process.platform === 'win32' && xsystem35 == 'xsystem35') {
-				err += '\nPlease copy xsystem35.exe to the workspace folder and try again.';
+			if (process.platform === 'win32' && program == this.type) {
+				err += `\nPlease copy ${this.type}.exe to the workspace folder and try again.`;
 			} else {
-				err += '\nPlease install xsystem35 and set the path in the settings.';
+				err += `\nPlease install ${this.type} and set the path in the settings.`;
 			}
 			vscode.window.showErrorMessage(err);
 		}
 
-		const args = ['-debug_dap', '-debuglv', config.logLevel];
-		return new vscode.DebugAdapterExecutable(xsystem35, args, options);
+		const args = [];
+		switch (this.type) {
+		case 'xsystem35':
+			args.push('-debug_dap', '-debuglv', config.logLevel);
+			break;
+		case 'system3':
+			args.push('-debugger', 'dap');
+			break;
+		}
+		return new vscode.DebugAdapterExecutable(program, args, options);
 	}
 
 	private checked = new Set<string>();

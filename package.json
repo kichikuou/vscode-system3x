@@ -93,6 +93,11 @@
           "default": "xsystem35",
           "description": "Specifies the path to xsystem35 executable."
         },
+        "system3x.system3Path": {
+          "type": "string",
+          "default": "system3",
+          "description": "Specifies the path to system3 executable."
+        },
         "system3x.manualPath": {
           "type": "string",
           "markdownDescription": "Specifies the HTML manual path of the System 3.9 SDK (e.g. `C:/Sys39SDK2/Manual/html`)."
@@ -237,6 +242,85 @@
               "runDir": "^\"\\${workspaceFolder}\"",
               "srcDir": "^\"\\${workspaceFolder}/src\"",
               "logLevel": 1,
+              "stopOnEntry": false,
+              "preLaunchTask": "xsys35c: build"
+            }
+          }
+        ]
+      },
+      {
+        "type": "system3",
+        "languages": [
+          "system35"
+        ],
+        "label": "System3",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program",
+              "runDir",
+              "srcDir"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Path to the system3 executable file.",
+                "default": "${config:system3x.system3Path}"
+              },
+              "env": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Environment variables defined as a key value pair.",
+                "default": {}
+              },
+              "runDir": {
+                "type": "string",
+                "description": "Directory that contains game files.",
+                "default": "${workspaceFolder}"
+              },
+              "srcDir": {
+                "type": "string",
+                "description": "Directory that contains source files.",
+                "default": "${workspaceFolder}/src"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "Automatically stop after launch.",
+                "default": false
+              },
+              "trace": {
+                "type": "boolean",
+                "description": "Enable logging of the Debug Adapter Protocol.",
+                "default": false
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "system3",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${config:system3x.system3Path}",
+            "runDir": "${workspaceFolder}",
+            "srcDir": "${workspaceFolder}/src",
+            "stopOnEntry": false,
+            "preLaunchTask": "xsys35c: build"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "System3: Debug",
+            "description": "A new configuration for debugging a System 1-3 project using system3-sdl2.",
+            "body": {
+              "type": "system3",
+              "request": "launch",
+              "name": "Debug",
+              "program": "^\"\\${config:system3x.system3Path}\"",
+              "runDir": "^\"\\${workspaceFolder}\"",
+              "srcDir": "^\"\\${workspaceFolder}/src\"",
               "stopOnEntry": false,
               "preLaunchTask": "xsys35c: build"
             }

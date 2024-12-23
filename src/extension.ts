@@ -8,7 +8,6 @@ import { System3xHoverProvider } from './hover';
 export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.tasks.registerTaskProvider(taskType, new CompileTaskProvider()),
-		vscode.debug.registerDebugConfigurationProvider('xsystem35', new Xsystem35ConfigurationProvider()),
 		vscode.commands.registerCommand('system3x.decompile', decompileWorkspace),
 		vscode.languages.registerEvaluatableExpressionProvider('system35', new System3xEvaluatableExpressionProvider()),
 		vscode.languages.registerDefinitionProvider('system35', new System3xDefinitionProvider(context)),
@@ -18,23 +17,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() { }
-
-class Xsystem35ConfigurationProvider implements vscode.DebugConfigurationProvider {
-	resolveDebugConfiguration(
-		folder: vscode.WorkspaceFolder | undefined,
-		config: vscode.DebugConfiguration,
-		token?: vscode.CancellationToken
-	): vscode.ProviderResult<vscode.DebugConfiguration> {
-		// If config is empty (no launch.json), copy initialConfigurations from our package.json.
-		if (Object.keys(config).length === 0) {
-			const packageJSON = vscode.extensions.getExtension('kichikuou.system3x')?.packageJSON;
-			if (packageJSON) {
-				Object.assign(config, packageJSON.contributes.debuggers[0].initialConfigurations[0]);
-			}
-		}
-		return config;
-	}
-}
 
 class System3xEvaluatableExpressionProvider implements vscode.EvaluatableExpressionProvider {
 	provideEvaluatableExpression(
