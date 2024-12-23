@@ -16,7 +16,7 @@
   "icon": "images/icon.png",
   "version": "0.6.1",
   "engines": {
-    "vscode": "^1.64.0"
+    "vscode": "^1.66.0"
   },
   "categories": [
     "Programming Languages",
@@ -232,9 +232,9 @@
     "build-wasm": "./build-xsys35c.sh"
   },
   "dependencies": {
-    "@types/node": "14.x",
-    "@types/vscode": "1.64.0",
-    "esbuild": "^0.19.8",
-    "typescript": "^5.2.2"
+    "@types/node": "16.x",
+    "@types/vscode": "1.66.0",
+    "esbuild": "^0.24.2",
+    "typescript": "^5.7.2"
   }
 }
