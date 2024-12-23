@@ -1,6 +1,7 @@
 .vscode
 src/
 assets/
+out/*.js.map
 node_modules
 .gitignore
 .gitmodules

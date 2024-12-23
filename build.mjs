@@ -14,6 +14,7 @@ const config = {
     },
     bundle: true,
     minify: true,
+    sourcemap: true,
     format: 'cjs',
     platform: 'node',
     external: [
