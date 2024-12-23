@@ -72,6 +72,22 @@
           "type": "string",
           "description": "The path to xsys35dc executable. If not specified, bundled xsys35dc will be used."
         },
+        "system3x.sys3cPath": {
+          "type": "string",
+          "description": "The path to sys3c executable. If not specified, bundled sys3c will be used."
+        },
+        "system3x.sys3dcOptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional command line options for the decompiler."
+        },
+        "system3x.sys3dcPath": {
+          "type": "string",
+          "description": "The path to sys3dc executable. If not specified, bundled sys3dc will be used."
+        },
         "system3x.xsystem35Path": {
           "type": "string",
           "default": "xsystem35",
@@ -94,12 +110,17 @@
       {
         "type": "xsys35c",
         "required": [
+          "compiler",
           "config"
         ],
         "properties": {
+          "compiler": {
+            "type": "string",
+            "description": "The compiler to use. (\"xsys35c\" or \"sys3c\")"
+          },
           "config": {
             "type": "string",
-            "description": "The path to the xsys35c.cfg file. If omitted the xsys35c.cfg in the root of the workspace folder is used."
+            "description": "The path to the project file. If omitted, xsys35c.cfg or sys3c.cfg in the root of the workspace folder is used."
           }
         }
       }

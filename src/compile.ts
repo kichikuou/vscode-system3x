@@ -22,22 +22,23 @@ export class CompileTaskProvider implements vscode.TaskProvider {
 }
 
 async function getTasks(): Promise<vscode.Task[]> {
-	const cfgFiles = await vscode.workspace.findFiles('**/xsys35c.cfg');
 	const result: vscode.Task[] = [];
-	for (const cfg of cfgFiles) {
-		result.push(createTask({ type: taskType, config: cfg.fsPath }));
+	for (const compiler of ['xsys35c', 'sys3c']) {
+		for (const cfg of await vscode.workspace.findFiles(`**/${compiler}.cfg`)) {
+			result.push(createTask({ type: taskType, compiler, config: cfg.fsPath }));
+		}
 	}
 	return result;
 }
 
 function createTask(definition: vscode.TaskDefinition): vscode.Task {
-	const xsys35cPath = vscode.workspace.getConfiguration('system3x').xsys35cPath;
-	const execution = xsys35cPath
-		? new vscode.ShellExecution(xsys35cPath, ['-p', definition.config])
+	const compilerPath = vscode.workspace.getConfiguration('system3x')[`${definition.compiler}Path`];
+	const execution = compilerPath
+		? new vscode.ShellExecution(compilerPath, ['-p', definition.config])
 		: new vscode.CustomExecution(
 			async (): Promise<vscode.Pseudoterminal> => {
 				const workerData = {
-					executable: './xsys35c',
+					executable: `./${definition.compiler}`,
 					workspaceRoot: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
 					args: ['-p', vscode.workspace.asRelativePath(definition.config, false)],
 				};
