@@ -334,7 +334,7 @@
     "type": "tsc -p src/",
     "build": "node build.mjs",
     "watch": "node build.mjs --watch",
-    "build-wasm": "./build-xsys35c.sh"
+    "build-wasm": "./build-wasm.sh"
   },
   "dependencies": {
     "@types/node": "16.x",

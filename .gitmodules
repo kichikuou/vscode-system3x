@@ -1,3 +1,6 @@
 [submodule "xsys35c"]
 	path = xsys35c
 	url = https://github.com/kichikuou/xsys35c.git
+[submodule "sys3c"]
+	path = sys3c
+	url = https://github.com/kichikuou/sys3c.git

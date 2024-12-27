@@ -7,4 +7,5 @@ node_modules
 .gitmodules
 build.mjs
 xsys35c
-build-xsys35c.sh
+sys3c
+build-wasm.sh
