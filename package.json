@@ -2,7 +2,7 @@
   "name": "system3x",
   "publisher": "kichikuou",
   "displayName": "System 3.x",
-  "description": "Language support for AliceSoft's System 3.x scripts",
+  "description": "Language support for AliceSoft's System 1-3 and 3.x scripts",
   "homepage": "https://github.com/kichikuou/vscode-system3x",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "email": "KichikuouChrome@gmail.com"
   },
   "icon": "images/icon.png",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -165,7 +165,7 @@
         "languages": [
           "system35"
         ],
-        "label": "XSystem35",
+        "label": "xsystem35-sdl2",
         "configurationAttributes": {
           "launch": {
             "required": [
@@ -251,7 +251,7 @@
         "languages": [
           "system35"
         ],
-        "label": "System3",
+        "label": "system3-sdl2",
         "configurationAttributes": {
           "launch": {
             "required": [

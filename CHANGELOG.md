@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.0
+- Added support for decompiling / compiling / debugging System 1-3 games.
+
 ## 0.6.1
 - On Windows, use xsystem35.exe in the workspace folder by default. This is
   currently the recommended way to install it.
