@@ -5,6 +5,7 @@ import palette_view_html from '../assets/palette_view.html';
 
 type DebuggerType = 'xsystem35' | 'system3';
 const debuggers: DebuggerType[] = ['xsystem35', 'system3'];
+export const log = vscode.window.createOutputChannel('System3x extension', { log: true });
 
 export function activateDebugger(context: vscode.ExtensionContext) {
 	const paletteViewProvider = new PaletteViewProvider();
@@ -118,8 +119,14 @@ class DebugAdapterTrackerFactory implements vscode.DebugAdapterTrackerFactory {
 		const config = session.configuration;
 		if (!config.trace) return undefined;
 		return {
-			onWillReceiveMessage: m => console.log(m),
-			onDidSendMessage: m => console.log(m)
+			onWillReceiveMessage: m => {
+				console.log(m);
+				log.info('DAP send', m);
+			},
+			onDidSendMessage: m => {
+				console.log(m);
+				log.info('DAP recv', m);
+			}
 		};
 	}
 }
