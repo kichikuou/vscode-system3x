@@ -13,85 +13,56 @@ export async function decompileWorkspace() {
 		vscode.window.showErrorMessage('No workspace folder.');
 		return;
 	}
-	const { decompiler, files } = await getDecompilerInput(folder) || {};
-	if (!decompiler || !files) return;
-
-	const config = vscode.workspace.getConfiguration('system3x');
-	const options: string[] = [].concat(config[`${decompiler}Options`]);
-	let exitCode: number | undefined;
-	const decompilerPath = config[`${decompiler}Path`];
-	if (decompilerPath) {
-		exitCode = await decompileWithExternalDecompiler(decompilerPath, options, files);
-	} else {
-		exitCode = await decompileInProcess(folder.uri.fsPath, decompiler, options, files);
-	}
-	if (exitCode !== 0) {
-		vscode.window.showErrorMessage('Decompilation failed. See terminal log for details.');
-		return;
-	}
-	await updateConfigFile(decompiler, folder.uri);
-	await openAdv(decompiler, folder.uri);
-}
-
-function decompileWithExternalDecompiler(decompilerPath: string, args: string[], files: vscode.Uri[]): Promise<number | undefined> {
-	args.push('--outdir=src');
-	for (const f of files) {
-		args.push(f.fsPath);
-	}
-	return executeDecompilation(new vscode.ShellExecution(decompilerPath, args));
-}
-
-function decompileInProcess(workspaceRoot: string, decompiler: Decompiler, args: string[], files: vscode.Uri[]): Promise<number | undefined> {
-	args.push('--outdir=/workspace/src');
-	for (const file of files) {
-		args.push('/workspace/' + vscode.workspace.asRelativePath(file));
-	}
-	const workerData = {
-		executable: `./${decompiler}`,
-		workspaceRoot,
-		args,
-	};
-	return executeDecompilation(new vscode.CustomExecution(async () => new WorkerTerminal(workerData)));
-}
-
-async function getDecompilerInput(folder: vscode.WorkspaceFolder): Promise<{decompiler: Decompiler, files: vscode.Uri[]} | undefined> {
-	if ((await vscode.workspace.findFiles(new vscode.RelativePattern(folder, 'src/*'), null, 1)).length > 0) {
+	if (await hasMatchingFiles(folder, 'src/*.cfg')) {
 		const selected = await vscode.window.showWarningMessage(
 			'"src" folder already exists. Decompile anyway?', {modal: true}, 'Yes');
 		if (selected !== 'Yes') {
 			return;
 		}
 	}
+	let decompiler: Decompiler | undefined;
+	if (await hasMatchingFiles(folder, '*[sS]?.[aA][lL][dD]'))
+		decompiler = 'xsys35dc';
+	else if (await hasMatchingFiles(folder, '?[dD][iI][sS][kK].[dD][aA][tT]'))
+		decompiler = 'sys3dc';
+	if (!decompiler) return;
 
-	const datFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '?[dD][iI][sS][kK].[dD][aA][tT]'));
-	if (datFiles.length > 0) {
-		const ag00 = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '[aA][gG]00.[dD][aA][tT]'));
-		return { decompiler: 'sys3dc', files: datFiles.concat(ag00) };
+	const config = vscode.workspace.getConfiguration('system3x');
+	const args: string[] = [].concat(config[`${decompiler}Options`]);
+	let exitCode: number | undefined;
+	const decompilerPath = config[`${decompiler}Path`];
+	if (decompilerPath) {
+		exitCode = await decompileWithExternalDecompiler(folder.uri.fsPath, decompilerPath, args);
+	} else {
+		exitCode = await decompileInProcess(folder.uri.fsPath, decompiler, args);
 	}
-
-	const aldFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '*[sS]?.[aA][lL][dD]'));
-	if (aldFiles.length === 0) {
-		vscode.window.showErrorMessage('No *SA.ALD files or ?DISK.DAT files in the workspace root folder.');
+	if (exitCode !== 0) {
+		vscode.window.showErrorMessage('Decompilation failed. See terminal log for details.');
 		return;
 	}
-	const ainFiles = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '[sS][yY][sS][tT][eE][mM]39.[aA][iI][nN]'));
-	return { decompiler: 'xsys35dc', files: aldFiles.concat(ainFiles) };
+	await openAdv(decompiler, folder.uri);
 }
 
-// Modify the project file so that build output will be written in the workspace root.
-async function updateConfigFile(decompiler: Decompiler, workspaceUri: vscode.Uri) {
-	const cfgName = decompiler === 'xsys35dc' ? 'xsys35c.cfg' : 'sys3c.cfg';
-	const cfgUri = vscode.Uri.joinPath(workspaceUri, 'src', cfgName);
-	const cfgData = await vscode.workspace.fs.readFile(cfgUri);
-	let cfgStr = Buffer.from(cfgData).toString('utf-8');
-	if (decompiler === 'xsys35dc') {
-		cfgStr = cfgStr.replace('ald_basename = ', 'ald_basename = ../');
-		cfgStr = cfgStr.replace('output_ain = ', 'output_ain = ../');
-	} else {
-		cfgStr = cfgStr.replace('adisk_name = ', 'adisk_name = ../');
-	}
-	cfgStr += '\ndebug = true\n';
-	await vscode.workspace.fs.writeFile(cfgUri, Buffer.from(cfgStr, 'utf8'));
+async function hasMatchingFiles(folder: vscode.WorkspaceFolder, pattern: string): Promise<boolean> {
+    const files = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, pattern), null, 1);
+    return files.length > 0;
+}
+
+function decompileWithExternalDecompiler(folder: string, decompilerPath: string, args: string[]): Promise<number | undefined> {
+	args.push(folder);
+	args.push('--outdir=src');
+	return executeDecompilation(new vscode.ShellExecution(decompilerPath, args));
+}
+
+function decompileInProcess(workspaceRoot: string, decompiler: Decompiler, args: string[]): Promise<number | undefined> {
+	args.push('.');
+	args.push('--outdir=/workspace/src');
+	const workerData = {
+		executable: `./${decompiler}`,
+		workspaceRoot,
+		args,
+	};
+	return executeDecompilation(new vscode.CustomExecution(async () => new WorkerTerminal(workerData)));
 }
 
 // Open an ADV file so that the user can start debugging just by pressing F5.

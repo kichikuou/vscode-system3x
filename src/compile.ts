@@ -34,13 +34,13 @@ async function getTasks(): Promise<vscode.Task[]> {
 function createTask(definition: vscode.TaskDefinition): vscode.Task {
 	const compilerPath = vscode.workspace.getConfiguration('system3x')[`${definition.compiler}Path`];
 	const execution = compilerPath
-		? new vscode.ShellExecution(compilerPath, ['-p', definition.config])
+		? new vscode.ShellExecution(compilerPath, ['--debug', '--outdir=.', '-p', definition.config])
 		: new vscode.CustomExecution(
 			async (): Promise<vscode.Pseudoterminal> => {
 				const workerData = {
 					executable: `./${definition.compiler}`,
 					workspaceRoot: vscode.workspace.workspaceFolders?.[0]?.uri.fsPath,
-					args: ['-p', vscode.workspace.asRelativePath(definition.config, false)],
+					args: ['--debug', '--outdir=.', '-p', vscode.workspace.asRelativePath(definition.config, false)],
 				};
 				return new WorkerTerminal(workerData);
 			  }
