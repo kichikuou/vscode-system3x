@@ -87,7 +87,7 @@ select `Add Configuration` from the `Run` menu. This will generate a
             "program": "${config:system3x.xsystem35Path}",
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
-            "logLevel": 1,
+            "logLevel": 2,
             "stopOnEntry": false,
             "preLaunchTask": "xsys35c: build"
         }

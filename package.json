@@ -200,7 +200,7 @@
               "logLevel": {
                 "type": "integer",
                 "description": "Console logging level. (0: Error, 1: Warning, 2: Info)",
-                "default": 1
+                "default": 2
               },
               "stopOnEntry": {
                 "type": "boolean",
@@ -223,7 +223,7 @@
             "program": "${config:system3x.xsystem35Path}",
             "runDir": "${workspaceFolder}",
             "srcDir": "${workspaceFolder}/src",
-            "logLevel": 1,
+            "logLevel": 2,
             "stopOnEntry": false,
             "preLaunchTask": "xsys35c: build"
           }
@@ -239,7 +239,7 @@
               "program": "^\"\\${config:system3x.xsystem35Path}\"",
               "runDir": "^\"\\${workspaceFolder}\"",
               "srcDir": "^\"\\${workspaceFolder}/src\"",
-              "logLevel": 1,
+              "logLevel": 2,
               "stopOnEntry": false,
               "preLaunchTask": "xsys35c: build"
             }
