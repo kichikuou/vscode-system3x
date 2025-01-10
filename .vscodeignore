@@ -1,3 +1,4 @@
+.github
 .vscode
 src/
 assets/
@@ -9,3 +10,4 @@ build.mjs
 xsys35c
 sys3c
 build-wasm.sh
+emsdk-cache
