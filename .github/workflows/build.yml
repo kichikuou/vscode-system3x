@@ -1,4 +1,4 @@
-name: Build
+name: Build and Publish
 on: push
 
 env:
@@ -48,3 +48,9 @@ jobs:
         name: vsix-package
         path: system3x-*.vsix
         compression-level: 0
+
+    - name: Publish to marketplace
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: npx @vscode/vsce publish
+      env:
+        VSCE_PAT: ${{ secrets.VSCE_PAT }}
