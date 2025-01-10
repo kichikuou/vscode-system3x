@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+mkdir -p out
 
 test -e xsys35c/meson.build || git submodule update --init
 test -e xsys35c/wasm/build.ninja || meson setup --cross-file=xsys35c/misc/emscripten.ini --buildtype=release xsys35c/wasm xsys35c
