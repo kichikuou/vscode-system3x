@@ -4,13 +4,14 @@ import { WorkerTerminal } from './terminal';
 export const taskType = 'xsys35c';
 
 export class CompileTaskProvider implements vscode.TaskProvider {
-	private getTasksDone: Thenable<vscode.Task[]> | undefined = undefined;
-
-	public provideTasks(): Thenable<vscode.Task[]> | undefined {
-		if (!this.getTasksDone) {
-			this.getTasksDone = getTasks();
+	public async provideTasks(): Promise<vscode.Task[]> {
+		const result: vscode.Task[] = [];
+		for (const compiler of ['xsys35c', 'sys3c']) {
+			for (const cfg of await vscode.workspace.findFiles(`**/${compiler}.cfg`)) {
+				result.push(createTask({ type: taskType, compiler, config: cfg.fsPath }));
+			}
 		}
-		return this.getTasksDone;
+		return result;
 	}
 
 	public resolveTask(task: vscode.Task): vscode.Task | undefined {
@@ -19,16 +20,6 @@ export class CompileTaskProvider implements vscode.TaskProvider {
 		}
 		return createTask(task.definition);
 	}
-}
-
-async function getTasks(): Promise<vscode.Task[]> {
-	const result: vscode.Task[] = [];
-	for (const compiler of ['xsys35c', 'sys3c']) {
-		for (const cfg of await vscode.workspace.findFiles(`**/${compiler}.cfg`)) {
-			result.push(createTask({ type: taskType, compiler, config: cfg.fsPath }));
-		}
-	}
-	return result;
 }
 
 function createTask(definition: vscode.TaskDefinition): vscode.Task {
