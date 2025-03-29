@@ -155,7 +155,8 @@
         {
           "type": "webview",
           "id": "system3x.palette",
-          "name": "Color Palette"
+          "name": "Color Palette",
+          "icon": "images/palette.svg"
         }
       ]
     },
