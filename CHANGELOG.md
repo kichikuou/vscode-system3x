@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2 - 2025-03-30
+- Fixed a bug where the build task was not found immediately after decompilation.
+- Updated xsys35c to 1.13.0.
+
 ## 0.7.1 - 2025-01-10
 - Updated xsys35c to 1.12.0 and sys3c to 0.3.0.
 
