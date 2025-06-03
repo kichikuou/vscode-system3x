@@ -3,11 +3,12 @@ import { WorkerTerminal } from './terminal';
 import { taskType } from './compile';
 
 type Decompiler = 'xsys35dc' | 'sys3dc';
+const EXIT_UNKNOWN_GAME = 2;
 
 // Decompile System 3.x game (*SA.ALD and System39.ain) or System 1-3 game
 // (?DISK.DAT) in the workspace root directory. Decompiled ADV files are
 // written into the `src` subdirectory.
-export async function decompileWorkspace() {
+export async function decompileWorkspace(gameid?: string) {
 	const folder = vscode.workspace.workspaceFolders?.[0];
 	if (!folder) {
 		vscode.window.showErrorMessage('No workspace folder.');
@@ -29,12 +30,27 @@ export async function decompileWorkspace() {
 
 	const config = vscode.workspace.getConfiguration('system3x');
 	const args: string[] = [].concat(config[`${decompiler}Options`]);
+	if (decompiler === 'sys3dc' && gameid) {
+		args.push(`--game=${gameid}`);
+	}
 	let exitCode: number | undefined;
 	const decompilerPath = config[`${decompiler}Path`];
 	if (decompilerPath) {
 		exitCode = await decompileWithExternalDecompiler(folder.uri.fsPath, decompilerPath, args);
 	} else {
 		exitCode = await decompileInProcess(folder.uri.fsPath, decompiler, args);
+	}
+	if (decompiler === 'sys3dc' && exitCode === EXIT_UNKNOWN_GAME && !gameid) {
+		// Ask the user for the game ID and try again.
+		const gameId = await vscode.window.showInputBox({
+			prompt: 'Enter game ID',
+			placeHolder: 'e.g. rance41',
+			validateInput: (value) => value ? null : 'Game ID cannot be empty.',
+		});
+		if (gameId) {
+			return decompileWorkspace(gameId);
+		}
+		return;
 	}
 	if (exitCode !== 0) {
 		vscode.window.showErrorMessage('Decompilation failed. See terminal log for details.');
