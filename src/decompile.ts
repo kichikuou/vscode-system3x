@@ -24,7 +24,8 @@ export async function decompileWorkspace(gameid?: string) {
 	let decompiler: Decompiler | undefined;
 	if (await hasMatchingFiles(folder, '*[sS]?.[aA][lL][dD]'))
 		decompiler = 'xsys35dc';
-	else if (await hasMatchingFiles(folder, '?[dD][iI][sS][kK].[dD][aA][tT]'))
+	else if (await hasMatchingFiles(folder, '?[dD][iI][sS][kK].[dD][aA][tT]') ||
+	         await hasMatchingFiles(folder, '[dD][iI][sS][kK]-?'))
 		decompiler = 'sys3dc';
 	if (!decompiler) return;
 

@@ -6,6 +6,9 @@
 		"lib": [
 			"ESNext"
 		],
+		"types": [
+			"node"
+		],
 		"strict": true
 	}
 }
