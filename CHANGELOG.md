@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.4 - 2026-07-18
+- When decompiling an unrecognized System 1-3 game, you can now enter its game
+  ID and retry.
+- Updated sys3c to 0.5.0.
+
 ## 0.7.3 - 2025-04-26
 - Updated sys3c to 0.4.0.
 
