@@ -16,7 +16,7 @@
   "icon": "images/icon.png",
   "version": "0.7.3",
   "engines": {
-    "vscode": "^1.75.0"
+    "vscode": "^1.82.0"
   },
   "categories": [
     "Programming Languages",
@@ -336,8 +336,8 @@
     "build-wasm": "./build-wasm.sh"
   },
   "dependencies": {
-    "@types/node": "16.x",
-    "@types/vscode": "1.75.0",
+    "@types/node": "18.x",
+    "@types/vscode": "1.82.0",
     "esbuild": "^0.24.2",
     "typescript": "^5.7.2"
   }
