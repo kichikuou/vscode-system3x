@@ -25,7 +25,7 @@ export class CompileTaskProvider implements vscode.TaskProvider {
 function createTask(definition: vscode.TaskDefinition): vscode.Task {
 	const compilerPath = vscode.workspace.getConfiguration('system3x')[`${definition.compiler}Path`];
 	const execution = compilerPath
-		? new vscode.ShellExecution(compilerPath, ['--debug', '--outdir=.', '-p', definition.config])
+		? new vscode.ProcessExecution(compilerPath, ['--debug', '--outdir=.', '-p', definition.config])
 		: new vscode.CustomExecution(
 			async (): Promise<vscode.Pseudoterminal> => {
 				const workerData = {
