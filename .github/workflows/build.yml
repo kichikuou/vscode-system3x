@@ -2,7 +2,7 @@ name: Build and Publish
 on: push
 
 env:
-  EM_VERSION: 6.0.1
+  EM_VERSION: 7.0.0
   EM_CACHE_FOLDER: 'emsdk-cache'
 
 jobs:
