@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.5 - 2026-11-20
+- Updated xsys35c to 1.14.0.
+
 ## 0.7.4 - 2026-07-18
 - When decompiling an unrecognized System 1-3 game, you can now enter its game
   ID and retry.
